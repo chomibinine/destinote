@@ -1,118 +1,171 @@
 /**
- * destinote 명리학 엔진 2.0 (Expert Edition)
- * - 월령(月令) 기반 오행 세력 가중치 산출
- * - 천간의 지지 통근(通根) 및 뿌리 강도 검사
- * - 조후(調候) / 억부(抑扶) 통합 용신 알고리즘
- * - 공망(空亡) 및 12운성 에너지 측정
+ * Destinote Oracle Engine 19.0 (Standard SaaS)
+ * - CONFIG / RULES Constants
+ * - Event-Driven State Pipeline
  */
 
-const Engine2 = {
-    // 오행 상생상극 기본 규칙
-    rules: {
-        mother: {'木':'水', '火':'木', '土':'火', '金':'土', '水':'金'},
-        child: {'木':'火', '火':'土', '土':'金', '金':'水', '水':'木'},
-        wealth: {'木':'土', '火':'金', '土':'水', '金':'木', '水':'火'},
-        power: {'木':'金', '火':'水', '土':'木', '金':'火', '水':'土'}
-    },
+export const MYSTIC_CONFIG = {
+    baseWeights: [1.2, 2.0, 1.2, 3.5, 1.5, 2.0, 1.2, 1.0], 
+    clashPenalty: 0.6, 
+    touganMul: { primary: 1.5, middle: 1.2, initial: 1.1 },
+    jongThreshold: 0.22, 
+    opThreshold: 0.70  
+};
 
-    getOhaeng: (c) => {
-        if('甲乙寅卯'.includes(c)) return '木';
-        if('丙丁巳午'.includes(c)) return '火';
-        if('戊己辰戌丑未'.includes(c)) return '土';
-        if('庚辛申酉'.includes(c)) return '金';
-        if('壬癸亥子'.includes(c)) return '水';
-        return '';
-    },
+export const RULES = {
+    SAMHAP: { FIRE: ['寅', '午', '戌'], WATER: ['申', '子', '辰'], WOOD: ['亥', '卯', '미'], METAL: ['巳', '酉', '丑'] },
+    SEASON_APPROVAL: { FIRE: ['巳','午','未','寅','戌'], WATER: ['亥','子','丑','申','辰'], WOOD: ['寅','卯','辰','亥','未'], METAL: ['申','酉','戌','巳','丑'] },
+    CLASH: [['子','午'], ['丑','未'], ['寅','申'], ['卯','酉'], ['辰','戌'], ['巳','亥']],
+    WONJIN: ['子未','丑午','寅酉','卯申','辰亥','巳戌','午丑','未子','申卯','酉寅','戌巳','亥辰'],
+    GWIMUN: ['子酉','丑午','寅未','卯申','辰亥','巳戌','酉子','午丑','未寅','申卯','亥辰','戌巳'],
+    BAEKHO: ['甲辰','乙未','丙戌','丁丑','戊辰','壬戌','癸丑'],
+    SAMHYUNG: [['寅','巳','申'], ['丑','戌','未']],
+    JG: {'子':['壬','癸'], '丑':['癸','辛','己'], '寅':['戊','丙','甲'], '卯':['甲','乙'], '辰':['乙','癸','戊'], '巳':['戊','庚','丙'], '午':['丙','己','丁'], '未':['丁','乙','己'], '申':['戊','壬','庚'], '酉':['庚','辛'], '戌':['辛','丁','戊'], '亥':['戊','甲','壬']}
+};
 
-    // --- 2.0 핵심: 정밀 오행 강약 계산 (월령/가중치 반영) ---
-    calculateStrength: (ch) => {
-        let scores = {'木':0, '火':0, '土':0, '金':0, '水':0};
-        const weights = [1, 3, 1, 3, 1, 2, 1, 2]; // [연간, 연지, 월간, 월지, 일간, 일지, 시간, 시지] 가중치
-        
-        ch.forEach((char, i) => {
-            const oh = Engine2.getOhaeng(char);
-            if(oh) scores[oh] += weights[i];
-        });
-        return scores;
+export const CoreHelper = {
+    getOh: (c) => {
+        if('甲乙寅卯'.includes(c)) return '木'; if('丙丁巳午'.includes(c)) return '火';
+        if('戊己辰戌丑未'.includes(c)) return '土'; if('庚辛申酉'.includes(c)) return '金';
+        if('壬癸亥子'.includes(c)) return '水'; return '';
     },
-
-    // --- 2.0 핵심: 통근(Rooting) 검사 ---
-    checkTongGeun: (stem, branches) => {
-        const oh = Engine2.getOhaeng(stem);
-        return branches.some(z => Engine2.getOhaeng(z) === oh);
-    },
-
-    // --- 2.0 핵심: 공망(Empty Void) 산출 ---
-    getGongmang: (dG, dZ) => {
-        const stems = '甲乙丙丁戊己庚辛壬癸';
-        const branches = '子丑寅卯辰巳午未申酉戌亥';
-        const sIdx = stems.indexOf(dG);
-        const zIdx = branches.indexOf(dZ);
-        if(sIdx === -1 || zIdx === -1) return [];
-        const targetIdx1 = (zIdx - sIdx + 12) % 12;
-        const targetIdx2 = (zIdx - sIdx + 11) % 12;
-        return [branches.charAt(targetIdx2), branches.charAt(targetIdx1)];
-    },
-
-    // 12운성 측정
-    getWounsung: (stem, branch) => {
-        const map = {
-            '甲':['亥','子','丑','寅','卯','辰','巳','午','未','申','酉','戌'], '丙':['寅','卯','辰','巳','午','未','申','酉','戌','亥','子','丑'],
-            '戊':['寅','卯','辰','巳','午','未','申','酉','戌','亥','子','丑'], '庚':['巳','午','未','申','酉','戌','亥','子','丑','寅','卯','辰'],
-            '壬':['申','酉','戌','亥','子','丑','寅','卯','辰','巳','午','未'], '乙':['午','巳','辰','卯','寅','丑','子','亥','戌','酉','申','未'],
-            '丁':['酉','申','未','午','巳','辰','卯','寅','丑','子','亥','戌'], '己':['酉','申','未','午','巳','辰','卯','寅','丑','子','亥','戌'],
-            '辛':['子','亥','戌','酉','申','미','午','巳','辰','卯','寅','丑'], '癸':['卯','寅','丑','子','亥','戌','酉','申','未','午','巳','辰']
+    getSeasonMultiplier: (el, monthBranch) => {
+        const weights = {
+            '寅':{'木':1.8, '火':1.2, '土':0.8, '金':0.5, '水':1.0}, '卯':{'木':2.0, '火':1.2, '土':0.5, '金':0.5, '水':1.0}, '辰':{'木':1.2, '火':1.0, '土':1.5, '金':1.0, '水':0.8},
+            '巳':{'木':0.8, '火':1.8, '土':1.2, '金':0.8, '水':0.5}, '午':{'木':0.8, '火':2.0, '土':1.5, '金':0.5, '水':0.5}, '未':{'木':0.5, '火':1.2, '土':1.8, '金':1.0, '水':0.5},
+            '申':{'木':0.5, '火':0.8, '土':1.0, '金':1.8, '水':1.2}, '酉':{'木':0.5, '火':0.5, '土':1.0, '金':2.0, '水':1.0}, '戌':{'木':0.5, '火':0.8, '土':1.5, '金':1.2, '水':0.5},
+            '亥':{'木':1.2, '火':0.5, '土':0.8, '金':1.0, '水':1.8}, '子':{'木':1.0, '火':0.5, '土':0.5, '金':1.0, '水':2.0}, '丑':{'木':0.8, '火':0.5, '土':1.5, '金':1.2, '水':1.0}
         };
-        const names = ['장생','목욕','관대','건록','제왕','쇠','병','사','묘','절','태','양'];
-        const idx = map[stem]?.indexOf(branch);
-        return idx !== -1 ? names[idx] : '';
+        return (weights[monthBranch] && weights[monthBranch][el]) ? weights[monthBranch][el] : 1.0;
     },
+    getTongGeunStrength: (stem, branches) => {
+        let sc = 0; const sOh = CoreHelper.getOh(stem);
+        branches.forEach((b, idx) => {
+            if(!RULES.JG[b]) return;
+            const jg = RULES.JG[b];
+            let weight = (idx === 1) ? 2 : 1; 
+            if(jg[jg.length-1] === stem) sc += (3 * weight); 
+            else if(jg.includes(stem)) sc += (1 * weight); 
+            else if(CoreHelper.getOh(jg[jg.length-1]) === sOh) sc += (1.5 * weight); 
+        });
+        return sc;
+    },
+    getGod: (me, target) => {
+        if(me === target) return '비겁';
+        if({'木':'火', '火':'土', '土':'金', '金':'水', '水':'木'}[me] === target) return '식상';
+        if({'木':'土', '火':'金', '土':'水', '金':'木', '水':'火'}[me] === target) return '재성';
+        if({'木':'金', '火':'水', '土':'木', '金':'火', '水':'土'}[me] === target) return '관성';
+        if({'木':'水', '火':'木', '土':'火', '金':'土', '水':'金'}[me] === target) return '인성';
+        return '-';
+    }
+};
 
-    // 통합 사주 풀이 엔진
+export const Pipeline = {
     run: (y, m, d, hStr, cal, isMale) => {
-        // 1. 시간 보정 및 명식 추출
         let hr = 12, min = 0;
-        if(hStr === 'yaja') { hr = 23; min = 45; }
-        else if(hStr === 'joja') { hr = 0; min = 30; }
-        else if(hStr !== 'none') { hr = parseInt(hStr); min = 0; }
+        if(hStr === 'yaja') { hr = 23; min = 30; } else if(hStr === 'joja') { hr = 0; min = 30; } else if(hStr !== 'none') { hr = parseInt(hStr); min = 0; }
 
         let sol, lun;
-        if(cal === 'solar'){ sol = Solar.fromYmdHms(y,m,d,hr,min,0); lun = sol.getLunar(); }
+        if(cal === 'solar'){ sol = Solar.fromYmdHms(y,m,d,hr,min,0); lun = sol.getLunar(); } 
         else { lun = Lunar.fromYmdHms(y,m,d,hr,min,0); sol = lun.getSolar(); }
         
         const bazi = lun.getEightChar();
-        const ch = [bazi.getYearGan(), bazi.getYearZhi(), bazi.getMonthGan(), bazi.getMonthZhi(), bazi.getDayGan(), bazi.getDayZhi(), hStr==='none'?'모름':bazi.getTimeGan(), hStr==='none'?'모름':bazi.getTimeZhi()];
+        let ch = [bazi.getYearGan(), bazi.getYearZhi(), bazi.getMonthGan(), bazi.getMonthZhi(), bazi.getDayGan(), bazi.getDayZhi()];
+        let stems = [ch[0], ch[2], ch[4]];
+        let branches = [ch[1], ch[3], ch[5]];
         
-        const oh = Engine2.getOhaeng(ch[4]);
-        const e = Engine2.calculateStrength(ch);
-        const br = [ch[1], ch[3], ch[5], ch[7]];
-
-        // 2. 용신 도출 (조후/억부 통합)
-        let yong = '';
-        if(['亥','子','丑'].includes(ch[3]) && ['木','水','金'].includes(oh)) yong = '火';
-        else if(['巳','午','未'].includes(ch[3]) && ['木','火','土'].includes(oh)) yong = '水';
-        else {
-            const mySc = e[oh] + e[Engine2.rules.mother[oh]];
-            const opSc = e[Engine2.rules.child[oh]] + e[Engine2.rules.wealth[oh]] + e[Engine2.rules.power[oh]];
-            if(mySc > opSc) yong = (e[Engine2.rules.wealth[oh]] >= e[Engine2.rules.power[oh]]) ? Engine2.rules.wealth[oh] : Engine2.rules.power[oh];
-            else yong = (e[Engine2.rules.mother[oh]] >= e[oh]) ? Engine2.rules.mother[oh] : oh;
+        if (hStr !== 'none') {
+            ch.push(bazi.getTimeGan(), bazi.getTimeZhi());
+            stems.push(ch[6]);
+            branches.push(ch[7]);
         }
 
-        // 3. 십이운성/공망/신살
-        const w12_p = Engine2.getWounsung(ch[4], ch[5]);
-        const gm = Engine2.getGongmang(ch[4], ch[5]);
-        let gmPos = [];
-        if(gm.includes(ch[1])) gmPos.push('년지');
-        if(gm.includes(ch[3])) gmPos.push('월지');
-        if(gm.includes(ch[7])) gmPos.push('시지');
+        const dG = ch[4] || '甲', dZ = ch[5], mZ = ch[3], oh = CoreHelper.getOh(dG) || '木';
+        let logs = [], scores = {'木':0, '火':0, '土':0, '金':0, '水':0};
 
-        // 4. 대운 추출
-        let daewun = [];
-        try { 
-            const dyList = bazi.getYun(isMale?1:0).getDaYun(); 
-            for(let i=0; i<8; i++) if(dyList[i]) daewun.push({age: dyList[i].getStartAge(), ganzhi: dyList[i].getGanZhi()});
-        } catch(e) {}
+        logs.push({ level: 'sys', msg: `[Phase 1] 월령(${mZ}) 기준 가중치 파이프라인 개시.` });
 
-        return { ch, oh, e, yong, w12_p, gm: {chars: gm.join(', '), pos: gmPos}, daewun, solStr: `${sol.getYear()}년 ${sol.getMonth()}월 ${sol.getDay()}일 ${hStr!=='none'?(hStr==='yaja'?'야자시':(hStr==='joja'?'조자시':hr+'시')):'시간모름'}`, bazi, age: new Date().getFullYear() - y + 1 };
+        let branchStates = branches.map((char, i)=>({ char, weight: MYSTIC_CONFIG.baseWeights[i*2+1], clashCount: 0 }));
+
+        // Phase 2. 지지충 스캔
+        const bLen = branchStates.length;
+        for(let i=0; i<bLen; i++) {
+            for(let j=i+1; j<bLen; j++) {
+                const b1 = branchStates[i], b2 = branchStates[j];
+                RULES.CLASH.forEach(cp => {
+                    if((b1.char===cp[0] && b2.char===cp[1]) || (b1.char===cp[1] && b2.char===cp[0])) {
+                        b1.clashCount++; b2.clashCount++;
+                        b1.weight *= Math.pow(MYSTIC_CONFIG.clashPenalty, b1.clashCount); 
+                        b2.weight *= Math.pow(MYSTIC_CONFIG.clashPenalty, b2.clashCount); 
+                        logs.push({ level: 'err', msg: `[Event] ${b1.char}${b2.char} 상충 발생. 에너지 누적 감쇠.` });
+                    }
+                });
+            }
+        }
+
+        // Phase 3. 삼합
+        let habScores = {'木':0, '火':0, '土':0, '金':0, '水':0};
+        const activeB = branchStates.filter(b=>b.clashCount === 0).map(b=>b.char); 
+        Object.entries(RULES.SAMHAP).forEach(([k, v]) => {
+            if(v.every(b => activeB.includes(b))) {
+                let bonus = RULES.SEASON_APPROVAL[k].includes(mZ) ? 4.0 : 1.5;
+                habScores[CoreHelper.getOh(v[1])] += bonus;
+                logs.push({ level: 'success', msg: `[Event] ${v.join('')} 합 형성 (+${bonus}).` });
+            }
+        });
+
+        // Phase 4. 점수 정산
+        let isTougan = false;
+        ch.forEach((char, i) => {
+            const el = CoreHelper.getOh(char); if(!el) return;
+            let w = MYSTIC_CONFIG.baseWeights[i];
+            if(i%2!==0 && branchStates[Math.floor(i/2)]) w = branchStates[Math.floor(i/2)].weight;
+            else if(i%2===0) {
+                let touganAmp = 1.0;
+                branchStates.forEach(b => {
+                    if(b.clashCount > 1) return;
+                    const jg = RULES.JG[b.char];
+                    if(jg) {
+                        if(jg[jg.length-1] === char) touganAmp = Math.max(touganAmp, MYSTIC_CONFIG.touganMul.primary);
+                        else if(jg.includes(char)) touganAmp = Math.max(touganAmp, MYSTIC_CONFIG.touganMul.middle);
+                    }
+                });
+                if(touganAmp > 1.0) { w *= touganAmp; if(i===4) isTougan = true; }
+            }
+            scores[el] += w * CoreHelper.getSeasonMultiplier(el, mZ);
+        });
+        Object.keys(habScores).forEach(k => scores[k] += habScores[k]);
+
+        // Phase 5. 판단 (종격 & 조후)
+        let rootScore = CoreHelper.getTongGeunStrength(dG, branches);
+        const motherEl = {'木':'水', '火':'木', '土':'火', '金':'土', '水':'金'}[oh];
+        const totalEnergy = Object.values(scores).reduce((a,b)=>a+b, 0);
+        const mySc = scores[oh] + scores[motherEl];
+        const opMaxOh = Object.keys(scores).filter(k=>k!==oh && k!==motherEl).sort((a,b)=>scores[b]-scores[a])[0];
+
+        let yong = '', hee = '', gi = '', trueGyuk = '';
+        if((mySc/totalEnergy < MYSTIC_CONFIG.jongThreshold) && rootScore <= 2) {
+            yong = opMaxOh; hee = oh; trueGyuk = '종격';
+            logs.push({ level: 'err', msg: `[Critical] 절대 종격 판정.` });
+        } else {
+            const isWinter = ['亥','子','丑'].includes(mZ), isSummer = ['巳','午','未'].includes(mZ);
+            if (isWinter && scores['水'] > scores['火']*1.5) { yong='火'; logs.push({ level: 'info', msg: `[조후] 냉골 사주. 화(火) 우선.` }); }
+            else if (isSummer && scores['火'] > scores['水']*1.5) { yong='水'; logs.push({ level: 'info', msg: `[조후] 조열 사주. 수(水) 우선.` }); }
+            else yong = mySc > (totalEnergy-mySc) ? opMaxOh : motherEl;
+
+            let jg = RULES.JG[mZ] || []; let tg = null;
+            for(let i=jg.length-1; i>=0; i--) { if(stems.includes(jg[i])) { tg = jg[i]; break; } }
+            if(!tg) tg = jg[jg.length-1];
+            trueGyuk = CoreHelper.getGod(oh, CoreHelper.getOh(tg)) + '격';
+        }
+
+        const cYear = new Date().getFullYear();
+        let daewun = []; try{ const dyList=bazi.getYun(isMale?1:0).getDaYun(); for(let i=0;i<8;i++)if(dyList[i])daewun.push({age:dyList[i].getStartAge(), ganzhi:dyList[i].getGanZhi()}); }catch(e){}
+
+        return { 
+            ch, oh, dG, dZ, branchStates, isTougan, rootScore, trueGyuk, yong, scores, logs, hStr,
+            daewun, curDw: daewun.find(dw => (cYear-sol.getYear()+1) >= dw.age) || daewun[0], cYear,
+            solStr: `${sol.getYear()}년 ${sol.getMonth()}월 ${sol.getDay()}일`
+        };
     }
 };
