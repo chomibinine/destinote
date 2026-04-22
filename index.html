@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>무료운세 사주 타로 토정비결 점성술 | 소름돋는 운세</title>
+    <title>운명노트(destinote) | 소름돋는 정통 명리·궁합·타로</title>
     <script src="https://cdn.jsdelivr.net/npm/lunar-javascript/lunar.min.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
@@ -19,7 +19,7 @@
         @keyframes float { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(50px,50px) scale(1.1); } }
         .app-container { max-width: 720px; margin: 0 auto; padding: 0 20px 160px; position: relative; z-index: 1; }
         .header { text-align: center; padding: 80px 0 40px; }
-        .header h1 { color: #fff; font-size: 2.6rem; font-weight: 800; letter-spacing: 6px; background: var(--premium-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; }
+        .header h1 { color: #fff; font-size: 2.4rem; font-weight: 800; letter-spacing: 4px; background: var(--premium-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; }
         .card { background: var(--card-glass); backdrop-filter: blur(25px); border: 1px solid var(--card-border); border-radius: 35px; padding: 40px; margin-bottom: 40px; }
         .form-group { margin-bottom: 25px; }
         label { display: block; margin-bottom: 10px; font-weight: 600; color: var(--accent-gold-light); font-size: 0.85rem; letter-spacing: 1px; }
@@ -32,7 +32,7 @@
         .sec-title { font-size: 1.4rem; color: var(--accent-gold-light); font-weight: 800; margin: 80px 0 30px; display: flex; align-items: center; gap: 12px; }
         .sec-title::before { content: '✦'; color: var(--accent-gold); }
         .detail-text { font-size: 1.05rem; line-height: 1.9; color: var(--text-main); text-align: justify; } 
-        .detail-text b.basis-text { color: var(--accent-gold-light); font-weight: 700; display: inline-block; margin-bottom: 6px; }
+        .detail-text b.basis-text { color: var(--accent-gold-light); font-weight: 700; display: inline-block; margin-bottom: 6px; font-size: 1.1rem;}
         
         /* 화려한 UI 컴포넌트 복구 */
         .pillar-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 40px; } 
@@ -44,7 +44,7 @@
         .daewun-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; text-align: center; margin-bottom: 50px;}
         .daewun-col { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px 0; }
         .daewun-age { font-size: 0.75rem; color: var(--accent-gold-light); font-weight: 700; margin-bottom: 6px; }
-        .daewun-char { font-size: 1.15rem; color: #fff; font-weight: 700; }
+        .daewun-char { font-size: 1.15rem; color: #fff; font-weight: 700; line-height: 1.3; }
 
         .element-chart-container { margin: 50px 0; padding: 35px; background: rgba(0,0,0,0.4); border-radius: 30px; border: 1px solid var(--card-border); }
         .bar-wrap { display: flex; align-items: center; margin-bottom: 18px; gap: 15px; }
@@ -86,11 +86,11 @@
 
 <div class="app-container" id="main-app" style="display:none;">
     <div id="home-view">
-        <header class="header"><h1>소름돋는 운세</h1><p>명리학 끝판왕: 정밀시간·공망·12운성 탑재</p></header>
+        <header class="header"><h1>운명노트(destinote)</h1><p>초정밀 명리학·궁합 분석 솔루션</p></header>
         
         <!-- 사주 입력 폼 -->
         <div id="input-area-standard" class="card">
-            <div class="form-group"><label>이름</label><input type="text" id="user-name" placeholder="이름 입력"></div>
+            <div class="form-group"><label>이름</label><input type="text" id="user-name" placeholder="이름을 입력하세요"></div>
             <div class="form-group"><label>생년월일</label><div class="select-row"><select id="user-year"></select><select id="user-month"></select><select id="user-day"></select></div></div>
             <div class="form-group select-row">
                 <div style="flex:1;"><label>성별</label><select id="user-gender"><option value="male">남성</option><option value="female">여성</option></select></div>
@@ -128,7 +128,7 @@
             </div>
             <div class="form-group" style="margin-top:20px;"><label>태어난 시각</label>
                 <select id="p-time">
-                    <option value="none">모름</option><option value="yaja">야자시 (23:30~)</option><option value="joja">조자시 (~01:29)</option>
+                    <option value="none">모름 / 미정</option><option value="yaja">야자시 (23:30~)</option><option value="joja">조자시 (~01:29)</option>
                     <option value="2">축시</option><option value="4">인시</option><option value="6">묘시</option><option value="8">진시</option>
                     <option value="10">사시</option><option value="12">오시</option><option value="14">미시</option><option value="16">신시</option>
                     <option value="18">유시</option><option value="20">술시</option><option value="22">해시</option>
@@ -138,8 +138,8 @@
 
         <!-- 메인 메뉴 -->
         <div class="menu-grid">
-            <div class="menu-item" onclick="handleStart('saju')"><div class="menu-icon-wrap">🧭</div><h3>정밀 사주</h3><p>공망/12운성 심층스캔</p></div>
-            <div class="menu-item" onclick="toggleGunghap()"><div class="menu-icon-wrap" id="gun-icon">❤️</div><h3 id="gun-title">인연 궁합</h3><p>두 사람의 운명적 결합</p></div>
+            <div class="menu-item" onclick="handleStart('saju')"><div class="menu-icon-wrap">🧭</div><h3>정밀 사주 분석</h3><p>공망/12운성 심층통변</p></div>
+            <div class="menu-item" onclick="toggleGunghap()"><div class="menu-icon-wrap" id="gun-icon">❤️</div><h3 id="gun-title">인연 궁합</h3><p>운명적 융합 분석</p></div>
             <div class="menu-item" onclick="handleStart('tojeong')"><div class="menu-icon-wrap">📜</div><h3>토정비결</h3><p>2026 신년 상세운세</p></div>
             <div class="menu-item" onclick="alert('타로/점성술은 기능 최적화 중입니다. 사주 메뉴를 이용해주세요!')"><div class="menu-icon-wrap">🃏</div><h3>타로 리딩</h3><p>무의식 3카드 리딩</p></div>
         </div>
@@ -150,7 +150,7 @@
     <div id="result-view" style="display:none;">
         <div id="report-wrap" class="report-wrapper"><div id="report-content"></div></div>
         <div style="display:flex; gap:10px; margin-top:30px;">
-            <button class="btn-rec" style="flex:1; background:var(--bg-base);" onclick="downloadImage()">📸 결과 캡처</button>
+            <button class="btn-rec" style="flex:1; background:var(--bg-base);" onclick="downloadImage()">📸 운명노트 캡처</button>
             <button class="btn-rec" style="flex:1; background:var(--bg-base);" onclick="shareReport()">🔗 링크 공유</button>
         </div>
         <button class="btn-rec" onclick="goHome()" style="background:var(--bg-base); margin-top:15px; margin-bottom:50px;">🏠 홈으로 돌아가기</button>
@@ -170,7 +170,7 @@
     let MYSTIC_DATA = null;
     let isGunghapMode = false;
 
-    // --- 엔진 헬퍼 (안전장치 완비) ---
+    // --- 엔진 헬퍼 (옵셔널 체이닝 방어) ---
     function getOh(c) { if('甲乙寅卯'.includes(c)) return '木'; if('丙丁巳午'.includes(c)) return '火'; if('戊己辰戌丑未'.includes(c)) return '土'; if('庚辛申酉'.includes(c)) return '金'; if('壬癸亥子'.includes(c)) return '水'; return ''; }
     function wrap(c) { return `<div class="fade-in-section">${c}</div>`; }
     function UI_Sec(title, basis, text, ext="") { return wrap(`<div class="sec-title">${title}</div><div class="detail-text" ${ext?'style="margin-bottom:40px;"':''}><p><b class="basis-text">${basis}</b>${text}</p></div>${ext}`); }
@@ -227,9 +227,9 @@
         // 1. 심연의 살 스캔
         if((br.includes('寅')&&br.includes('巳')&&br.includes('申')) || (br.includes('丑')&&br.includes('戌')&&br.includes('未'))) abyss.push(MYSTIC_DATA?.SHIN_SAL_EXT?.['삼형살'] || {n:'삼형살',d:'기운이 부딪히는 역동성이 있습니다.'});
         const wonjinMap = {'子':'未','丑':'午','寅':'酉','卯':'申','辰':'亥','巳':'戌','午':'丑','未':'子','申':'卯','酉':'寅','戌':'巳','亥':'辰'};
-        if(br.includes(wonjinMap[d.dZ])) abyss.push(MYSTIC_DATA?.SHIN_SAL_EXT?.['원진살'] || {n:'원진살',d:'인간관계의 굴곡을 뜻합니다.'});
+        if(br.includes(wonjinMap[d.dZ])) abyss.push(MYSTIC_DATA?.SHIN_SAL_EXT?.['원진살'] || {n:'원진살',d:'가까운 이와 잦은 애증의 굴곡을 뜻합니다.'});
         
-        // 2. 공망(空亡) 스캔 로직
+        // 2. 공망 스캔 로직
         const stems = '甲乙丙丁戊己庚辛壬癸', branches = '子丑寅卯辰巳午未申酉戌亥';
         const sIdx = stems.indexOf(d.dG), zIdx = branches.indexOf(d.dZ);
         if (sIdx !== -1 && zIdx !== -1) {
@@ -265,7 +265,7 @@
         const sG = '丙', sZ = '午'; d.cYear = 2026;
         d.dyn = [];
         if(ganHab[d.dG]===sG) d.dyn.push(`올해 [${sG}] 기운이 당신의 일간[${d.dG}]과 천간합을 이뤄 긍정적인 융합이 예견됩니다.`);
-        if(zhiChung[d.dZ]===sZ) d.dyn.push(`올해 [${sZ}] 기운이 당신의 일지[${d.dZ}]를 충격하여 환경 변화가 예상됩니다.`);
+        if(zhiChung[d.dZ]===sZ) d.dyn.push(`올해 [${sZ}] 기운이 당신의 일지[${d.dZ}]를 강하게 충격하여 환경 변화가 예상됩니다.`);
 
         let daewun = []; try{ const dyList=d.bazi.getYun(isMale?1:0).getDaYun(); for(let i=0;i<8;i++)if(dyList[i])daewun.push({age:dyList[i].getStartAge(), ganzhi:dyList[i].getGanZhi()}); }catch(e){}
         d.daewun = daewun;
@@ -274,12 +274,38 @@
         return { ...d, abyss };
     }
 
+    // --- 로딩 텍스트 애니메이션 함수 ---
+    function animateLoader(type, callback) {
+        const loader = document.getElementById('loader');
+        const loaderText = document.getElementById('loader-text');
+        loader.style.display = 'flex';
+        
+        const texts = {
+            saju: ["우주적 시공간 좌표를 추출 중입니다...", "사주 8글자 명식을 조립 중입니다...", "타고난 오행 밸런스 및 십성을 스캔합니다...", "운명을 살리는 조후/억부 용신 타겟팅 중...", "운명노트 작성이 거의 완료되었습니다."],
+            gunghap: ["두 사람의 시공간 좌표를 동기화 중입니다...", "천간의 합과 지지의 충을 스캔 중입니다...", "상호 용신 보완율을 정밀 계산합니다...", "우주적 인연 궁합 리포트 작성 중..."],
+            tojeong: ["태세(太歲) 및 일진(日辰) 작괘 중...", "운명 코드 도출 및 사언절구 해독 중...", "12개월 정밀 타임라인 구성 중..."]
+        };
+        
+        let msgs = texts[type] || ["운명 해독 중..."];
+        let msgIdx = 0;
+        loaderText.innerText = msgs[0];
+        
+        const interval = setInterval(() => {
+            msgIdx++;
+            if(msgIdx < msgs.length) loaderText.innerText = msgs[msgIdx];
+        }, 600);
+
+        setTimeout(() => {
+            clearInterval(interval);
+            callback();
+        }, msgs.length * 600 + 400);
+    }
+
     function handleStart(type) {
         const name = document.getElementById('user-name').value;
         if(!name) return alert("성함을 입력해주세요.");
         
-        document.getElementById('loader').style.display='flex';
-        setTimeout(() => {
+        animateLoader(type, () => {
             try {
                 const isMale = document.getElementById('user-gender').value === 'male';
                 const me = calculatePersonal(getBazi(parseInt(document.getElementById('user-year').value), parseInt(document.getElementById('user-month').value), parseInt(document.getElementById('user-day').value), document.getElementById('user-cal').value, document.getElementById('user-time').value), isMale);
@@ -310,13 +336,13 @@
                 alert("분석 중 오류가 발생했습니다.\n입력하신 정보를 확인해주세요."); 
                 document.getElementById('loader').style.display='none'; 
             }
-        }, 1200);
+        });
     }
 
     function renderSaju(d) {
-        let h = `<div class="daily-fortune"><h3>오늘의 운명지수</h3><p>"모든 퍼즐이 맞춰지고 진면목이 드러나는 시기입니다."</p></div>
+        let h = `<div class="daily-fortune"><h3>오늘의 운명지수</h3><p>"모든 퍼즐이 맞춰지고 진짜 당신의 진면목이 드러나는 시기입니다."</p></div>
                  <div style="text-align:center; margin-bottom:50px;">
-                    <h2 style="font-size:2.2rem; color:var(--accent-gold-light); margin-bottom:10px;">${d.name}</h2>
+                    <h2 style="font-size:2.2rem; color:var(--accent-gold-light); margin-bottom:10px;">${d.name} 님의 운명노트</h2>
                     <p style="color:var(--text-muted); font-size:1rem;">${d.solStr}</p>
                  </div>`;
         
@@ -341,52 +367,50 @@
         });
         h += wrap(chart + `</div>`);
 
-        // 3. 심연 로직 렌더링
+        // 3. 심연 로직 렌더링 (풍부해진 텍스트 적용)
         let masterHtml = `<div style="background:linear-gradient(135deg, rgba(212,175,55,0.05), rgba(0,0,0,0.5)); padding:30px; border-radius:24px; border:1px solid var(--accent-gold); margin-bottom:50px;">`;
-        masterHtml += `<p style="margin-bottom:20px; font-size:1.1rem;"><b class="basis-text">십이운성(十二運星) 분석:</b> 귀하의 사회적 역량은 <b>[${d.w12.social}]</b>, 개인적 성향은 <b>[${d.w12.personal}]</b>의 에너지를 띠고 있습니다.<br><span style="font-size:1rem; color:var(--text-muted); display:block; margin-top:8px;">${MYSTIC_DATA?.WOUNSUNG_DB?.[d.w12.personal] || ''}</span></p>`;
+        masterHtml += `<p style="margin-bottom:20px; font-size:1.1rem;"><b class="basis-text">십이운성(十二運星) 분석:</b> 귀하의 사회적 역량은 <b>[${d.w12.social}]</b>, 개인적 내면의 기운은 <b>[${d.w12.personal}]</b>의 에너지를 띠고 있습니다.<br><span style="font-size:1rem; color:var(--text-muted); display:block; margin-top:8px; line-height:1.7;">${MYSTIC_DATA?.WOUNSUNG_DB?.[d.w12.personal] || ''}</span></p>`;
         
         if(d.gongmang.pos.length > 0) {
-            let gmDesc = d.gongmang.pos.map(pos => MYSTIC_DATA?.GONGMANG_DB?.[pos] || '').join('<br>');
-            masterHtml += `<p style="margin-bottom:20px; font-size:1.1rem;"><b class="basis-text">공망(空亡) 탐지 (${d.gongmang.chars}):</b> 귀하의 명식 중 <b>${d.gongmang.pos.join(', ')}</b> 자리에 공망이 들었습니다.<br><span style="font-size:1rem; color:var(--text-muted); display:block; margin-top:8px;">${gmDesc}</span></p>`;
+            let gmDesc = d.gongmang.pos.map(pos => MYSTIC_DATA?.GONGMANG_DB?.[pos] || '').join('<br><br>');
+            masterHtml += `<p style="margin-bottom:20px; font-size:1.1rem;"><b class="basis-text">공망(空亡) 탐지 (${d.gongmang.chars}):</b> 귀하의 명식 중 <b>${d.gongmang.pos.join(', ')}</b> 자리에 공망이 들었습니다.<br><span style="font-size:1rem; color:var(--text-muted); display:block; margin-top:8px; line-height:1.7;">${gmDesc}</span></p>`;
         } else {
-            masterHtml += `<p style="margin-bottom:20px; font-size:1.1rem;"><b class="basis-text">공망(空亡) 탐지:</b> 명식 주요 자리에 밑 빠진 독이라 불리는 공망이 발견되지 않아 에너지가 굳건합니다.</p>`;
+            masterHtml += `<p style="margin-bottom:20px; font-size:1.1rem;"><b class="basis-text">공망(空亡) 탐지:</b> 명식 주요 자리에 밑 빠진 독이라 불리는 공망이 발견되지 않아 에너지가 새지 않고 굳건합니다.</p>`;
         }
 
         if(d.abyss.length > 0) {
-            d.abyss.forEach(a => { masterHtml += `<p style="margin-bottom:20px; font-size:1.1rem;"><b class="basis-text">${a.n}:</b> <span style="font-size:1rem; color:var(--text-muted); display:block; margin-top:8px;">${a.d}</span></p>`; });
+            d.abyss.forEach(a => { masterHtml += `<p style="margin-bottom:20px; font-size:1.1rem;"><b class="basis-text">${a.n}:</b> <span style="font-size:1rem; color:var(--text-muted); display:block; margin-top:8px; line-height:1.7;">${a.d}</span></p>`; });
         }
         masterHtml += `</div>`;
         h += UI_Sec("🌌 명리학의 끝판왕: 정밀 심연 스캔", "12운성, 공망, 특수 살성을 스캔한 결과입니다.", "", wrap(masterHtml));
 
-        // 4. 대운 세운 풀이
-        let dwText = `현재 [${d.curDw.ganzhi}] 대운 중심을 지나며, ${getOh(d.curDw.ganzhi.charAt(0))===d.yong?'수호 기운이 들어오는 황금기이니 과감히 도전하세요.':'에너지를 다소 소모하는 시기이니 내실을 단단히 다지세요.'}`;
-        let seunText = `올해 ${d.cYear}년(${d.sG}${d.sZ})은 ${d.dyn.length>0? d.dyn.join(' '):'비교적 무난하고 평탄한 흐름을 보입니다.'}`;
-        h += UI_Sec("⏳ 현재 운세 기상도", "10년 주기 대운과 올해의 흐름:", "", UI_Box(`현재 10년: ${d.curDw.ganzhi} 대운`, `<p style="margin-bottom:15px;">${dwText}</p><p style="color:var(--color-fire); font-weight:700;">올해 흐름: ${seunText}</p>`));
+        // 4. 텍스트 풀이 (풍부해진 텍스트 적용)
+        let dwText = `현재 [${d.curDw.ganzhi}] 대운 중심을 지나며, ${getOh(d.curDw.ganzhi.charAt(0))===d.yong?'나를 살리는 수호 기운이 들어오는 황금기이니 과감히 스케일을 키워 도전하세요.':'에너지를 다소 소모하는 시기이니 무리한 확장보다는 내실을 단단히 다지세요.'}`;
+        let seunText = `올해 ${d.cYear}년(${d.sG}${d.sZ})은 ${d.dyn.length>0? d.dyn.join('<br>'):'비교적 무난하고 평탄한 흐름을 보입니다.'}`;
+        h += UI_Sec("⏳ 현재 운세 기상도", "10년 주기 대운과 올해의 흐름:", "", UI_Box(`현재 10년: ${d.curDw.ganzhi} 대운`, `<p style="margin-bottom:15px;">${dwText}</p><p style="color:var(--color-fire); font-weight:700;">올해 흐름:<br>${seunText}</p>`));
 
-        // 5. 텍스트 풀이 (오류 방어 완비)
         const gyukName = MYSTIC_DATA?.GYUKGUK_DB?.[d.myGyukguk]?.n || d.myGyukguk;
-        const gyukDesc = MYSTIC_DATA?.GYUKGUK_DB?.[d.myGyukguk]?.d || "비범한 그릇을 지녔습니다.";
+        const gyukDesc = MYSTIC_DATA?.GYUKGUK_DB?.[d.myGyukguk]?.d || "매우 비범한 그릇을 지녔습니다.";
         h += UI_Sec("🏛️ 운명의 그릇", `당신의 격국은 [${gyukName}]입니다.`, `<br>${gyukDesc}`);
 
-        h += UI_Sec("🧭 운명의 가이드", `나를 살리는 [${MYSTIC_DATA?.YONGSHIN_DB?.[d.yong]?.n || d.yong}] 용신:`, `<br>${MYSTIC_DATA?.YONGSHIN_DB?.[d.yong]?.d || '해당 기운을 적극 활용하세요.'}`);
+        h += UI_Sec("🧭 운명의 가이드", `나를 살리는 [${MYSTIC_DATA?.YONGSHIN_DB?.[d.yong]?.n || d.yong}] 용신:`, `<br><b>✨ 맞춤 조언:</b> ${MYSTIC_DATA?.YONGSHIN_DB?.[d.yong]?.d || '해당 기운을 적극 활용하세요.'}`);
         
-        const myJigan = MYSTIC_DATA?.JIGAN_DB?.[d.dG] || {desc:'자신의 주관을 믿고 나아가세요.'};
-        h += UI_Sec("🌱 인생의 흐름", "본원의 기질과 평생운:", `<br><b>기질:</b> ${myJigan.desc}<br><br><b>초년:</b> ${MYSTIC_DATA?.LIFETIME_DB?.e?.[d.oh] || ''}<br><br><b>중년:</b> ${MYSTIC_DATA?.LIFETIME_DB?.m?.[d.oh] || ''}<br><br><b>말년:</b> ${MYSTIC_DATA?.LIFETIME_DB?.l?.[d.oh] || ''}`);
+        const myJigan = MYSTIC_DATA?.JIGAN_DB?.[d.dG] || {desc:'자신의 굳건한 주관을 믿고 나아가세요.'};
+        h += UI_Sec("🌱 인생의 흐름", "본원의 기질과 평생운:", `<br><b>나의 본질:</b> ${myJigan.desc}<br><br><b>초년:</b> ${MYSTIC_DATA?.LIFETIME_DB?.e?.[d.oh] || ''}<br><br><b>중년:</b> ${MYSTIC_DATA?.LIFETIME_DB?.m?.[d.oh] || ''}<br><br><b>말년:</b> ${MYSTIC_DATA?.LIFETIME_DB?.l?.[d.oh] || ''}`);
         
-        const myGod = MYSTIC_DATA?.GOD_DB?.[d.domGod] || {w:'', c:'', l:''};
-        h += UI_Sec("💎 입체 통변", "분야별 상세 분석:", `<br><b>💰 재물:</b> ${MYSTIC_DATA?.LIFETIME_DB?.w?.[d.oh] || ''}<br><span style="color:var(--text-muted); font-size:0.95rem;">(조언: ${myGod.w})</span><br><br><b>💼 직업:</b> ${MYSTIC_DATA?.LIFETIME_DB?.c?.[d.oh] || ''}<br><span style="color:var(--text-muted); font-size:0.95rem;">(조언: ${myGod.c})</span><br><br><b>❤️ 애정:</b> ${MYSTIC_DATA?.LIFETIME_DB?.l_v?.[d.oh] || ''}<br><span style="color:var(--text-muted); font-size:0.95rem;">(조언: ${myGod.l})</span><br><br><b>👨‍👩‍👧‍👦 가족:</b> ${MYSTIC_DATA?.LIFETIME_DB?.f?.[d.oh] || ''}<br><br><b>💪 건강:</b> ${MYSTIC_DATA?.LIFETIME_DB?.h?.[d.oh] || ''}`);
+        h += UI_Sec("💎 입체 통변", "분야별 상세 분석:", `<br><b>💰 부의 연금술:</b> ${MYSTIC_DATA?.LIFETIME_DB?.w?.[d.oh] || ''}<br><br><b>💼 별이 내린 천직:</b> ${MYSTIC_DATA?.LIFETIME_DB?.c?.[d.oh] || ''}<br><br><b>❤️ 주파수의 공명 (사랑):</b> ${MYSTIC_DATA?.LIFETIME_DB?.l_v?.[d.oh] || ''}<br><br><b>👨‍👩‍👧‍👦 뿌리와 열매 (가족):</b> ${MYSTIC_DATA?.LIFETIME_DB?.f?.[d.oh] || ''}<br><br><b>💪 생명력의 흐름 (건강):</b> ${MYSTIC_DATA?.LIFETIME_DB?.h?.[d.oh] || ''}`);
         
-        // 6. 귀인 복구
-        const helper = MYSTIC_DATA?.HELPER_DB?.[d.dG] || {animals:'소띠/양띠', desc:'도움을 주는 귀인입니다.'};
-        h += wrap(`<div class="sec-title">🤝 귀인 분석</div><div class="helper-box"><div class="helper-icon">🐂</div><div><h4 style="color:#fff; font-size:1.3rem; margin-bottom:10px;">나의 귀인: <span style="color:var(--accent-gold-light);">${helper.animals}</span></h4><p style="font-size:1.05rem; color:var(--text-muted); line-height:1.6;">${helper.desc}</p></div></div>`);
+        // 5. 귀인 복구
+        const helper = MYSTIC_DATA?.HELPER_DB?.[d.dG] || {animals:'소띠, 양띠', desc:'인생의 큰 위기마다 도움을 주는 귀인입니다.'};
+        h += wrap(`<div class="sec-title">🤝 조력자 분석: 천을귀인</div><div class="helper-box"><div class="helper-icon">🐂</div><div><h4 style="color:#fff; font-size:1.3rem; margin-bottom:10px;">나의 귀인: <span style="color:var(--accent-gold-light);">${helper.animals}</span></h4><p style="font-size:1.05rem; color:var(--text-muted); line-height:1.6;">${helper.desc}</p></div></div>`);
 
-        // 7. 타임라인 복구
+        // 6. 타임라인 복구
         let timelineHtml = ''; const bA = ['자(쥐)', '축(소)', '인(호랑이)', '묘(토끼)', '진(용)', '사(뱀)', '오(말)', '미(양)', '신(원숭이)', '유(닭)', '술(개)', '해(돼지)'];
-        const tA = ["장기적인 안목으로 씨앗을 뿌리기에 완벽한 해입니다.", "다진 기반이 훗날 철옹성이 됩니다.", "과감한 도전을 실행해야 할 타이밍입니다.", "주변의 도움으로 문제를 해결하며 실속을 챙깁니다.", "문서운이 매우 강력하게 들어옵니다.", "역마가 강하게 들어와 타향에서 기회를 얻습니다.", "노력이 화려하게 드러나며 스포트라이트를 받습니다.", "속도를 줄이고 내면과 가정을 돌볼 때 행복을 얻습니다.", "투자보다 본업에 집중하여 현금을 확보하세요.", "예리한 판단력으로 실속을 극대화합니다.", "베풀었던 덕이 되돌아오며 자산을 지키기에 최적입니다.", "낡은 관념을 버리고 완전히 새롭고 위대한 다음을 기획하십시오."];
+        const tA = ["장기적인 안목으로 씨앗을 뿌리기에 완벽한 해입니다.", "다진 기반이 훗날 거대한 철옹성이 됩니다.", "과감한 도전을 망설임 없이 실행해야 할 타이밍입니다.", "주변 귀인의 도움으로 어려운 문제를 해결하며 실속을 챙깁니다.", "문서운과 계약운이 매우 강력하게 들어오는 행운의 해입니다.", "강한 역마가 들어와 타향이나 낯선 곳에서 막대한 기회를 얻습니다.", "그간의 숨은 노력이 화려하게 드러나며 스포트라이트를 한 몸에 받습니다.", "속도를 잠시 줄이고 내면과 가정을 돌볼 때 진정한 행복을 얻습니다.", "새로운 투자보다 본업에 온전히 집중하여 현금을 꽉 확보하세요.", "예리하고 냉철한 판단력으로 당신의 실속을 극대화합니다.", "베풀었던 덕이 되돌아오며 자산을 튼튼하게 지키기에 최적입니다.", "낡은 관념을 버리고 완전히 새롭고 위대한 다음 10년을 기획하십시오."];
         for(let i=0; i<10; i++) { let y=d.cYear+i; let idx=(y-4)%12; timelineHtml += `<div class="timeline-item"><div class="timeline-point"></div><div class="timeline-year">${y}년 <span style="font-size:0.85rem; font-weight:500; color:#fff; background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:12px; margin-left:10px; border:1px solid rgba(255,255,255,0.2);">${bA[idx]}의 해</span></div><div class="detail-text" style="font-size:1.05rem;">${tA[idx]}</div></div>`; }
-        h += wrap(`<div class="sec-title">📈 10년 타임라인</div><div class="timeline">${timelineHtml}</div>`);
+        h += wrap(`<div class="sec-title">📈 향후 10년 운명 타임라인</div><div class="timeline">${timelineHtml}</div>`);
 
-        // 8. 처방전 복구
+        // 7. 처방전 복구
         h += renderActionBox(d);
         return h;
     }
@@ -401,7 +425,7 @@
         const res = MYSTIC_DATA?.GUNGHAP_DB?.[level] || {t:"조화로운 인연", d:"서로 다름을 인정하며 노력하는 건강한 관계입니다."};
 
         let h = `<div class="daily-fortune" style="padding:40px 20px;">
-                    <div style="font-size:1.2rem; color:var(--accent-gold-light); font-weight:700; margin-bottom:10px;">초정밀 궁합지수</div>
+                    <div style="font-size:1.2rem; color:var(--accent-gold-light); font-weight:700; margin-bottom:10px;">우주적 궁합지수</div>
                     <div style="font-size:3.5rem; font-weight:800; color:#fff; margin-bottom:15px; line-height:1;">${score}<span style="font-size:1.5rem;">점</span></div>
                     <p style="font-size:1.2rem; color:var(--text-muted);">"${res.t}"</p>
                  </div>
@@ -420,7 +444,7 @@
                  <style>@keyframes heartbeat { 0% { transform: scale(1); } 15% { transform: scale(1.3); } 30% { transform: scale(1); } 45% { transform: scale(1.3); } 60% { transform: scale(1); } }</style>`;
         
         h += UI_Box("👩‍❤️‍👨 우주적 인연의 결론", res.d);
-        h += UI_Sec("🤝 상호 기운 분석", "오행과 용신의 조화:", `<br>[${me.name}]님에게 가장 절실한 구원의 기운인 <b>[${MYSTIC_DATA?.YONGSHIN_DB?.[me.yong]?.n || me.yong}]</b> 에너지를 [${you.name}]님이 ${you.e[me.yong]>0?'아주 풍부하게 뿜어내어 채워주고 있으므로, 두 사람이 함께할 때 긍정적인 시너지가 폭발합니다.':'채워주기에는 다소 부족하므로, 서로 다른 방식으로 부족함을 채워나가야 하는 관계입니다.'}`);
+        h += UI_Sec("🤝 상호 기운 분석", "오행과 용신의 조화:", `<br>안녕하세요 ${me.name}님, 분석 결과 [${me.name}]님에게 평생 가장 절실한 구원의 기운인 <b>[${MYSTIC_DATA?.YONGSHIN_DB?.[me.yong]?.n || me.yong}]</b> 에너지를 [${you.name}]님이 ${you.e[me.yong]>0?'아주 넉넉하게 뿜어내어 완벽히 채워주고 있습니다. 두 분이 함께할 때 긍정적인 시너지가 폭발합니다.':'상대적으로 채워주기에는 다소 부족합니다. 따라서 서로가 기대기보다는 각자의 다른 방식으로 부족함을 채워나가며 의지해야 하는 어른스러운 관계입니다.'}`);
         
         h += renderActionBox(me);
         return h;
@@ -470,8 +494,8 @@
         } catch(e) { document.getElementById('loader-text').innerText="데이터 로딩 실패! (Live Server나 호스팅 환경에서 실행해주세요)"; }
     };
     function goHome() { location.reload(); }
-    function downloadImage() { alert("캡처 준비 완료!"); }
-    function shareReport() { alert("링크 복사 완료!"); }
+    function downloadImage() { alert("운명노트 캡처 준비 완료!"); }
+    function shareReport() { alert("운명노트 링크 복사 완료!"); }
 </script>
 </body>
 </html>
