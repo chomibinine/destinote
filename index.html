@@ -3,167 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
     <title>무료운세 사주 타로 토정비결 점성술 | 소름돋는 운세</title>
-    <meta name="description" content="사주 엔진의 끝판왕 로직 탑재! 합충파해 및 지장간 분석으로 소름 돋는 정확도를 경험하세요.">
-    <link rel="canonical" href="https://your-domain.com/">
-    
     <script src="https://cdn.jsdelivr.net/npm/lunar-javascript/lunar.min.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-        
-        :root { 
-            --bg-base: #05070a; --bg-gradient: radial-gradient(circle at 50% 0%, #111724 0%, #05070a 100%); 
-            --card-glass: rgba(18, 22, 33, 0.6); --card-border: rgba(255, 255, 255, 0.08); 
-            --accent-gold: #d4af37; --accent-gold-light: #f9e596; --premium-gradient: linear-gradient(135deg, #f9e596 0%, #d4af37 100%); 
-            --text-main: #e2e8f0; --text-muted: #94a3b8; 
-            --color-wood: #4ade80; --color-fire: #fb923c; --color-earth: #fbbf24; --color-metal: #cbd5e1; --color-water: #60a5fa; 
-        }
-
+        :root { --bg-base: #05070a; --bg-gradient: radial-gradient(circle at 50% 0%, #111724 0%, #05070a 100%); --card-glass: rgba(18, 22, 33, 0.6); --card-border: rgba(255, 255, 255, 0.08); --accent-gold: #d4af37; --accent-gold-light: #f9e596; --premium-gradient: linear-gradient(135deg, #f9e596 0%, #d4af37 100%); --text-main: #e2e8f0; --text-muted: #94a3b8; --color-wood: #4ade80; --color-fire: #fb923c; --color-earth: #fbbf24; --color-metal: #cbd5e1; --color-water: #60a5fa; }
         * { box-sizing: border-box; font-family: 'Pretendard', sans-serif; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; word-break: keep-all; overflow-wrap: break-word; }
         body { background: var(--bg-base); color: var(--text-main); line-height: 1.8; overflow-x: hidden; min-height: 100vh; position: relative; }
-        
         .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; background: var(--bg-gradient); }
         .orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.35; animation: float 20s infinite alternate ease-in-out; }
         .orb-1 { width: 450px; height: 450px; background: rgba(212,175,55,0.15); top: -100px; left: -150px; }
         .orb-2 { width: 550px; height: 550px; background: rgba(56,189,248,0.1); bottom: -200px; right: -150px; animation-delay: -5s; }
         @keyframes float { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(50px,50px) scale(1.1); } }
-
         .app-container { max-width: 720px; margin: 0 auto; padding: 0 20px 160px; position: relative; z-index: 1; }
-        .header { text-align: center; padding: 80px 0 50px; }
+        .header { text-align: center; padding: 80px 0 40px; }
         .header h1 { color: #fff; font-size: 2.6rem; font-weight: 800; letter-spacing: 6px; background: var(--premium-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; }
-        .header p { font-size: 0.95rem; color: var(--text-muted); letter-spacing: 2px; }
-
-        .privacy-notice { background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 20px; padding: 18px 24px; margin-bottom: 35px; font-size: 0.9rem; color: var(--text-muted); display: flex; align-items: flex-start; gap: 14px; line-height: 1.6; }
-        .privacy-notice b { color: var(--accent-gold-light); }
-
-        .card { background: var(--card-glass); backdrop-filter: blur(25px); border: 1px solid var(--card-border); border-radius: 35px; padding: 50px 40px; margin-bottom: 50px; }
-        .form-group { margin-bottom: 30px; }
-        label { display: block; margin-bottom: 12px; font-weight: 600; color: var(--accent-gold-light); font-size: 0.85rem; letter-spacing: 1px; }
-        input, select { width: 100%; padding: 20px 24px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.3); color: #fff; font-size: 1.05rem; outline: none; transition: all 0.3s ease; -webkit-appearance: none; appearance: none; }
-        input:focus, select:focus { border-color: var(--accent-gold); background: rgba(0,0,0,0.5); }
-        .select-row { display: flex; gap: 15px; } .select-row select { margin-bottom: 0; }
-
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 70px; }
-        .menu-item { background: var(--card-glass); border: 1px solid var(--card-border); border-radius: 30px; padding: 45px 20px; text-align: center; cursor: pointer; transition: all 0.4s ease; }
-        .menu-item:hover { border-color: var(--accent-gold); transform: translateY(-8px); }
-        .menu-icon-wrap { width: 75px; height: 75px; margin: 0 auto 24px; background: rgba(255,255,255,0.03); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--card-border); font-size: 2.4rem; transition: 0.4s ease; }
-        .menu-item:hover .menu-icon-wrap { background: rgba(212,175,55,0.15); border-color: var(--accent-gold); transform: scale(1.1); }
-        .menu-item h3 { font-size: 1.2rem; color: #fff; font-weight: 700; margin-bottom: 8px; }
-        .menu-item p { font-size: 0.85rem; color: var(--text-muted); }
-
-        #result-view, #tarot-pick-view { display: none; animation: slideUpFade 0.8s ease forwards; }
-        @keyframes slideUpFade { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-        .fade-in-section { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
-        .fade-in-section.is-visible { opacity: 1; transform: none; }
-
-        /* Report UI */
-        .daily-fortune { background: linear-gradient(135deg, rgba(212,175,55,0.12), rgba(212,175,55,0.03)); border: 1px solid rgba(212,175,55,0.4); border-radius: 24px; padding: 24px; margin-bottom: 35px; text-align: center; }
-        .profile-box { background: linear-gradient(135deg, rgba(212,175,55,0.06), rgba(0,0,0,0.6)); border: 1px solid rgba(212,175,55,0.25); border-radius: 35px; padding: 45px 35px; margin-bottom: 60px; text-align: center; }
-        .sec-title { font-size: 1.5rem; color: var(--accent-gold-light); font-weight: 800; margin: 90px 0 35px; display: flex; align-items: center; gap: 15px; }
-        .sec-title::before { content: '✦'; font-size: 1.3rem; color: var(--accent-gold); }
-        .detail-text { font-size: 1.1rem; line-height: 2.0; color: var(--text-main); font-weight: 400; text-align: justify; } 
-        .detail-text p { margin-bottom: 24px; } 
-        .detail-text b.basis-text { color: var(--accent-gold-light); font-weight: 700; display: block; margin-bottom: 8px; }
-        .summary-box { background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(0,0,0,0) 100%); border-left: 3px solid var(--accent-gold); border-radius: 0 24px 24px 0; padding: 35px 45px; margin-bottom: 45px; color: #fff; font-weight: 600; font-size: 1.2rem; line-height: 1.8; }
-
-        /* 사주 명식표 */
-        .pillar-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 50px; } 
-        .pillar { background: rgba(255,255,255,0.03); padding: 30px 10px; border-radius: 24px; text-align: center; border: 1px solid var(--card-border); } 
-        .pillar span { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px; } 
-        .pillar b.stem, .pillar b.branch { color: var(--text-main); font-size: 1.8rem; display: block; margin-bottom: 5px; }
-        .pillar .ten-god-top, .pillar .ten-god-bottom { font-size: 0.85rem; color: var(--accent-gold); font-weight: 600; padding: 5px 0;}
-        
-        .daewun-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; text-align: center; margin-bottom:50px;}
-        .daewun-col { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px 0; }
-        
-        /* 오행 차트 */
-        .element-chart-container { margin: 60px 0; padding: 40px 35px; background: rgba(0,0,0,0.4); border-radius: 35px; border: 1px solid var(--card-border); }
-        .bar-wrap { display: flex; align-items: center; margin-bottom: 22px; gap: 18px; }
-        .bar-label { width: 50px; color: var(--text-muted); font-size: 0.9rem; text-align: right; }
-        .bar-bg { flex: 1; height: 10px; background: rgba(255,255,255,0.06); border-radius: 10px; }
-        .bar-fill { height: 100%; border-radius: 10px; transition: width 1.5s ease; width: 0%; }
-        
-        /* 타로 카드 */
-        .tarot-spread { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 35px; justify-items: center; perspective: 1000px; } 
-        .tarot-card-container { width: 100%; max-width: 100px; aspect-ratio: 2/3.3; cursor: pointer; } 
-        .tarot-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s ease; transform-style: preserve-3d; } 
-        .tarot-card-inner.flipped { transform: rotateY(180deg) scale(1.05); pointer-events: none; } 
-        .tarot-card-front, .tarot-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 14px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--card-border); } 
-        .tarot-card-front { background: linear-gradient(135deg, #1a2233, #0b0e14); } 
-        .tarot-card-back { background: var(--bg-base); color: #fff; transform: rotateY(180deg); font-size: 2.4rem; border-color: var(--accent-gold); }
-
-        /* 유틸 버튼 */
-        .action-box { margin-top: 110px; padding: 70px 45px; border-radius: 45px; background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.4) 100%); border: 1px solid var(--card-border); text-align: center; }
-        .btn-rec { display: inline-flex; align-items: center; justify-content: center; gap: 14px; background: rgba(255,255,255,0.04); color: var(--text-main); padding: 22px 35px; border-radius: 20px; text-decoration: none; font-weight: 600; font-size: 1.1rem; border: 1px solid var(--card-border); width: 100%; cursor: pointer; transition: all 0.3s; } 
-        .btn-rec:hover { background: var(--premium-gradient); color: #000; font-weight: 800; }
-        .utility-buttons { display: flex; gap: 15px; margin-top: 20px; }
-        .btn-util { flex: 1; background: var(--card-glass); border: 1px solid var(--card-border); color: #fff; padding: 24px 10px; border-radius: 24px; font-weight: 700; font-size: 1.15rem; cursor: pointer; } 
-
-        .nav-wrapper { position: fixed; bottom: 35px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 9999; pointer-events: none; } 
-        .nav { pointer-events: auto; background: rgba(10, 14, 22, 0.9); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 40px; display: flex; width: 90%; max-width: 450px; padding: 10px; } 
-        .nav-item { flex: 1; text-align: center; color: var(--text-muted); font-size: 0.75rem; cursor: pointer; padding: 10px 0; } 
+        .card { background: var(--card-glass); backdrop-filter: blur(25px); border: 1px solid var(--card-border); border-radius: 35px; padding: 40px; margin-bottom: 40px; }
+        .form-group { margin-bottom: 25px; }
+        label { display: block; margin-bottom: 10px; font-weight: 600; color: var(--accent-gold-light); font-size: 0.85rem; letter-spacing: 1px; }
+        input, select { width: 100%; padding: 18px 22px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.3); color: #fff; font-size: 1rem; outline: none; }
+        .select-row { display: flex; gap: 12px; } .select-row select { margin-bottom: 0; }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 60px; }
+        .menu-item { background: var(--card-glass); border: 1px solid var(--card-border); border-radius: 28px; padding: 40px 20px; text-align: center; cursor: pointer; transition: 0.4s; }
+        .menu-item:hover { border-color: var(--accent-gold); transform: translateY(-5px); }
+        .menu-icon-wrap { width: 65px; height: 65px; margin: 0 auto 20px; background: rgba(255,255,255,0.03); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; border: 1px solid var(--card-border); }
+        .sec-title { font-size: 1.4rem; color: var(--accent-gold-light); font-weight: 800; margin: 80px 0 30px; display: flex; align-items: center; gap: 12px; }
+        .sec-title::before { content: '✦'; color: var(--accent-gold); }
+        .detail-text { font-size: 1.05rem; line-height: 1.9; color: var(--text-main); text-align: justify; } 
+        .detail-text b.basis-text { color: var(--accent-gold-light); font-weight: 700; display: block; margin-bottom: 6px; }
+        .pillar-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 40px; } 
+        .pillar { background: rgba(255,255,255,0.03); padding: 25px 8px; border-radius: 20px; text-align: center; border: 1px solid var(--card-border); } 
+        .pillar b { font-size: 1.6rem; display: block; color: #fff; }
+        .pillar span { font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 10px; }
+        .element-chart-container { margin: 50px 0; padding: 35px; background: rgba(0,0,0,0.4); border-radius: 30px; border: 1px solid var(--card-border); }
+        .bar-wrap { display: flex; align-items: center; margin-bottom: 18px; gap: 15px; }
+        .bar-bg { flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 10px; }
+        .bar-fill { height: 100%; border-radius: 10px; transition: width 1.5s ease; }
+        .timeline { position: relative; padding-left: 20px; border-left: 2px solid rgba(212,175,55,0.2); } 
+        .timeline-item { position: relative; margin-bottom: 35px; padding-left: 25px; } 
+        .timeline-point { position: absolute; left: -31px; top: 8px; width: 12px; height: 12px; background: var(--accent-gold); border-radius: 50%; } 
+        .btn-rec { display: inline-flex; align-items: center; justify-content: center; gap: 12px; background: rgba(255,255,255,0.04); color: #fff; padding: 20px; border-radius: 18px; text-decoration: none; font-weight: 600; border: 1px solid var(--card-border); width: 100%; cursor: pointer; margin-top: 15px; }
+        .nav-wrapper { position: fixed; bottom: 30px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 9999; pointer-events: none; } 
+        .nav { pointer-events: auto; background: rgba(10, 14, 22, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 40px; display: flex; width: 90%; max-width: 450px; padding: 8px; } 
+        .nav-item { flex: 1; text-align: center; color: var(--text-muted); font-size: 0.7rem; cursor: pointer; padding: 8px 0; } 
         .nav-item.active { color: var(--accent-gold-light); font-weight: 700; } 
-
         #loader { display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-base); z-index: 100000; flex-direction: column; justify-content: center; align-items: center; } 
-        .loader-ring { width: 90px; height: 90px; border: 3px solid transparent; border-top-color: var(--accent-gold); border-radius: 50%; animation: spin 1.5s linear infinite; } 
+        .loader-ring { width: 70px; height: 70px; border: 3px solid transparent; border-top-color: var(--accent-gold); border-radius: 50%; animation: spin 1.2s linear infinite; } 
         @keyframes spin { to { transform: rotate(360deg); } }
-        
-        @media (max-width: 600px) { 
-            .app-container { padding: 0 15px 140px; } 
-            .header h1 { font-size: 2rem; } 
-            .pillar-row { grid-template-columns: repeat(2, 1fr); gap: 12px; } 
-            .utility-buttons { flex-direction: column; gap: 10px; }
-        }
+        @media (max-width: 600px) { .pillar-row { grid-template-columns: repeat(2, 1fr); } .select-row { flex-wrap: wrap; } }
     </style>
 </head>
 <body>
-
 <div class="ambient-bg"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
-<div id="loader"><div class="loader-ring"></div><p id="loader-text" style="color:var(--accent-gold); margin-top:20px; font-weight:700; letter-spacing:3px;">우주적 데이터를 불러오는 중...</p></div>
+<div id="loader"><div class="loader-ring"></div><p id="loader-text" style="color:var(--accent-gold); margin-top:20px; font-weight:700; letter-spacing:2px;">데이터 동기화 중...</p></div>
 
 <div class="app-container" id="main-app" style="display:none;">
     <div id="home-view">
-        <header class="header"><h1>소름돋는 운세</h1><p>명리학 끝판왕 DB 연동 완료</p></header>
-        <div class="privacy-notice"><i class="icon">🔒</i> <div><b>[내 정보 안전 저장]</b> 기기에만 안전하게 저장됩니다.</div></div>
-
-        <div class="card">
-            <div class="form-group"><label>상담 대상 성함</label><input type="text" id="user-name" placeholder="이름 입력"></div>
-            <div class="form-group">
-                <label>생년월일</label>
-                <div class="select-row"><select id="user-year"></select><select id="user-month"></select><select id="user-day"></select></div>
-            </div>
+        <header class="header"><h1>소름돋는 운세</h1><p>명리학 끝판왕: 정밀시간·공망·12운성 탑재</p></header>
+        <div id="input-area-standard" class="card">
+            <div class="form-group"><label>이름</label><input type="text" id="user-name" placeholder="이름 입력"></div>
+            <div class="form-group"><label>생년월일</label><div class="select-row"><select id="user-year"></select><select id="user-month"></select><select id="user-day"></select></div></div>
             <div class="form-group select-row">
                 <div style="flex:1;"><label>성별</label><select id="user-gender"><option value="male">남성</option><option value="female">여성</option></select></div>
-                <div style="flex:1;"><label>력 체계</label><select id="user-cal"><option value="solar">양력</option><option value="lunar">음력</option></select></div>
+                <div style="flex:1;"><label>력</label><select id="user-cal"><option value="solar">양력</option><option value="lunar">음력</option></select></div>
             </div>
-            <div class="form-group">
-                <label>태어난 시각</label>
-                <select id="user-time"><option value="none">모름</option><option value="0">자시</option><option value="2">축시</option><option value="4">인시</option><option value="6">묘시</option><option value="8">진시</option><option value="10">사시</option><option value="12">오시</option><option value="14">미시</option><option value="16">신시</option><option value="18">유시</option><option value="20">술시</option><option value="22">해시</option></select>
+            <div class="form-group" style="margin-top:20px;">
+                <label>태어난 시각 <span style="font-size:0.75rem; font-weight:400; color:var(--text-muted);">(동경 135도 보정)</span></label>
+                <select id="user-time">
+                    <option value="none">모름 / 미정</option>
+                    <option value="yaja">야자시 (23:30 ~ 23:59)</option>
+                    <option value="joja">조자시 (00:00 ~ 01:29)</option>
+                    <option value="2">축시 (01:30 ~ 03:29)</option>
+                    <option value="4">인시 (03:30 ~ 05:29)</option>
+                    <option value="6">묘시 (05:30 ~ 07:29)</option>
+                    <option value="8">진시 (07:30 ~ 09:29)</option>
+                    <option value="10">사시 (09:30 ~ 11:29)</option>
+                    <option value="12">오시 (11:30 ~ 13:29)</option>
+                    <option value="14">미시 (13:30 ~ 15:29)</option>
+                    <option value="16">신시 (15:30 ~ 17:29)</option>
+                    <option value="18">유시 (17:30 ~ 19:29)</option>
+                    <option value="20">술시 (19:30 ~ 21:29)</option>
+                    <option value="22">해시 (21:30 ~ 23:29)</option>
+                </select>
             </div>
         </div>
+
+        <div id="partner-input-area" class="card" style="display:none; border-top: 2px solid var(--accent-gold); margin-top: -20px;">
+            <h4 style="color:var(--accent-gold-light); margin-bottom:20px; text-align:center;">❤️ 상대방 정보 입력</h4>
+            <div class="form-group"><label>상대 이름</label><input type="text" id="partner-name" placeholder="상대방 이름"></div>
+            <div class="form-group"><label>상대 생년월일</label><div class="select-row"><select id="p-year"></select><select id="p-month"></select><select id="p-day"></select></div></div>
+            <div class="form-group select-row">
+                <div style="flex:1;"><label>상대 성별</label><select id="p-gender"><option value="female">여성</option><option value="male">남성</option></select></div>
+                <div style="flex:1;"><label>상대 력</label><select id="p-cal"><option value="solar">양력</option><option value="lunar">음력</option></select></div>
+            </div>
+            <div class="form-group" style="margin-top:20px;"><label>태어난 시각</label><select id="p-time"><option value="none">모름</option><option value="yaja">야자시 (23:30~)</option><option value="joja">조자시 (~01:29)</option><option value="2">축시</option><option value="4">인시</option><option value="6">묘시</option><option value="8">진시</option><option value="10">사시</option><option value="12">오시</option><option value="14">미시</option><option value="16">신시</option><option value="18">유시</option><option value="20">술시</option><option value="22">해시</option></select></div>
+        </div>
+
         <div class="menu-grid">
-            <div class="menu-item" onclick="handleStart('saju')"><div class="menu-icon-wrap">🧭</div><h3>정밀 사주</h3><p>합충파해/지장간 리포트</p></div>
-            <div class="menu-item" onclick="handleStart('tojeong')"><div class="menu-icon-wrap">📜</div><h3>토정비결</h3><p>2026 신년운세</p></div>
-            <div class="menu-item" onclick="handleStart('star')"><div class="menu-icon-wrap">✨</div><h3>점성술</h3><p>수호성 매핑</p></div>
-            <div class="menu-item" onclick="handleStart('tarot')"><div class="menu-icon-wrap">🃏</div><h3>타로</h3><p>무의식 리딩</p></div>
+            <div class="menu-item" onclick="handleStart('saju')"><div class="menu-icon-wrap">🧭</div><h3>정밀 사주</h3><p>공망/12운성 심층스캔</p></div>
+            <div class="menu-item" onclick="toggleGunghap()"><div class="menu-icon-wrap" id="gun-icon">❤️</div><h3 id="gun-title">인연 궁합</h3><p>두 사람의 운명적 결합</p></div>
+            <div class="menu-item" onclick="handleStart('tojeong')"><div class="menu-icon-wrap">📜</div><h3>토정비결</h3><p>2026 신년 상세운세</p></div>
+            <div class="menu-item" onclick="handleStart('tarot')"><div class="menu-icon-wrap">🃏</div><h3>타로 리딩</h3><p>무의식의 3카드 리딩</p></div>
         </div>
         <div id="visitor-ui" style="text-align:center; font-size:0.8rem; color:var(--text-muted);"></div>
     </div>
 
     <div id="tarot-pick-view" style="display:none;">
-        <header class="header" style="padding: 50px 0 40px;"><h1>무의식의 거울</h1><p>마음을 정돈하고 3장을 고르세요.</p></header>
-        <div style="text-align:center; color:var(--text-muted); margin-bottom:30px;">당신의 무의식이 우주적 흐름과 만나는 지점을 투영합니다.</div>
-        <div id="tarot-count-info" style="text-align:center; color:var(--accent-gold-light); margin-bottom:30px; font-weight:700;">3장 중 0장 선택됨</div>
+        <header class="header" style="padding: 50px 0 40px;"><h1>무의식의 선택</h1><p>3장의 카드를 고르세요.</p></header>
         <div class="tarot-spread" id="tarot-spread-area"></div>
-        <button class="btn-rec" style="margin-top: 60px; background:var(--bg-base);" onclick="goHome()">🏠 이전으로 돌아가기</button>
     </div>
 
     <div id="result-view" style="display:none;">
         <div id="report-wrap" class="report-wrapper"><div id="report-content"></div></div>
-        <div class="utility-buttons"><button class="btn-util" onclick="downloadImage()">📸 결과 캡처</button><button class="btn-util" onclick="shareReport()">🔗 링크 공유</button></div>
-        <button class="btn-rec" onclick="goHome()" style="margin-top:20px; background:var(--bg-base);">🏠 처음으로 돌아가기</button>
+        <div class="utility-buttons"><button class="btn-util" onclick="downloadImage()">📸 캡처</button><button class="btn-util" onclick="shareReport()">🔗 공유</button></div>
+        <button class="btn-rec" onclick="goHome()" style="background:var(--bg-base); margin-top:15px;">🏠 홈으로</button>
     </div>
 </div>
 
@@ -177,304 +131,212 @@
 </div>
 
 <script>
-    // ==========================================
-    // ★ 1. LOGIC CONSTANTS ★
-    // ==========================================
     let MYSTIC_DATA = null;
+    let isGunghapMode = false;
 
-    const ganHab = { '甲':'己', '己':'甲', '乙':'庚', '庚':'乙', '丙':'辛', '辛':'丙', '丁':'壬', '壬':'丁', '戊':'癸', '癸':'戊' };
-    const zhiHab6 = { '子':'丑', '丑':'子', '寅':'亥', '亥':'寅', '卯':'戌', '戌':'卯', '辰':'酉', '酉':'辰', '巳':'申', '申':'巳', '午':'未', '未':'午' };
-    const zhiChung = { '子':'午', '午':'子', '丑':'未', '未':'丑', '寅':'申', '申':'寅', '卯':'酉', '酉':'卯', '辰':'戌', '戌':'辰', '巳':'亥', '亥':'巳' };
-    const hiddenStems = { '子':['壬','癸'], '丑':['癸','辛','己'], '寅':['戊','丙','甲'], '卯':['甲','乙'], '辰':['乙','癸','戊'], '巳':['戊','庚','丙'], '午':['丙','己','丁'], '未':['丁','乙','己'], '申':['戊','壬','庚'], '酉':['庚','辛'], '戌':['辛','丁','戊'], '亥':['戊','甲','壬'] };
-    const motherEls = {'木':'水', '火':'木', '土':'火', '金':'土', '水':'金'};
-    const childEls = {'木':'火', '火':'土', '土':'金', '金':'水', '水':'木'};
-    const wealthEls = {'木':'土', '火':'金', '土':'水', '金':'木', '水':'火'};
-    const powerEls = {'木':'金', '火':'水', '土':'木', '金':'火', '水':'土'};
-
-    // ==========================================
-    // ★ 2. HELPER & UI GENERATOR ★
-    // ==========================================
+    // --- 엔진 헬퍼 ---
     function getOh(c) { if('甲乙寅卯'.includes(c)) return '木'; if('丙丁巳午'.includes(c)) return '火'; if('戊己辰戌丑未'.includes(c)) return '土'; if('庚辛申酉'.includes(c)) return '金'; if('壬癸亥子'.includes(c)) return '水'; return ''; }
     function wrap(c) { return `<div class="fade-in-section">${c}</div>`; }
-    function UI_Section(title, basis, text, ext="") { return wrap(`<div class="sec-title">${title}</div><div class="detail-text" ${ext?'style="margin-bottom:40px;"':''}><p><b class="basis-text">${basis}</b>${text}</p></div>${ext}`); }
+    function UI_Sec(title, basis, text, ext="") { return wrap(`<div class="sec-title">${title}</div><div class="detail-text" ${ext?'style="margin-bottom:40px;"':''}><p><b class="basis-text">${basis}</b>${text}</p></div>${ext}`); }
     function UI_Box(title, content) { return wrap(`<div style="background:rgba(255,255,255,0.03); padding:25px; border-radius:24px; border:1px solid var(--card-border); margin-bottom:50px;">${title ? `<h4 style="color:var(--accent-gold-light); margin-bottom:15px; font-size:1.15rem;">${title}</h4>` : ''}<div class="detail-text" style="font-size:1.05rem;">${content}</div></div>`); }
 
-    function getSingleKeywordLuck(type, oh, seed) {
-        let n, l, i, d, c;
-        if(type === 'saju') {
-            const p = { '木':{n:'일기장',l:'행운 아이템',i:'📓',d:'정동쪽',c:'그린'}, '火':{n:'디퓨저',l:'행운 아이템',i:'🕯️',d:'정남쪽',c:'레드'}, '土':{n:'다기세트',l:'행운 아이템',i:'🍵',d:'중앙',c:'황색'}, '金':{n:'메탈시계',l:'행운 아이템',i:'⌚',d:'정서쪽',c:'실버'}, '水':{n:'가습기',l:'행운 아이템',i:'💧',d:'정북쪽',c:'블랙'} };
-            const item = p[oh] || p['土']; n=item.n; l=item.l; i=item.i; d=item.d; c=item.c;
-        } else if (type === 'star') {
-            const p = { '불':{n:'아로마 캔들',l:'행운 소품',i:'💎',d:'남동쪽',c:'오렌지'}, '흙':{n:'원석 크리스탈',l:'행운 소품',i:'💎',d:'북동쪽',c:'브라운'}, '공기':{n:'썬캐쳐',l:'행운 소품',i:'💎',d:'동쪽',c:'스카이 블루'}, '물':{n:'진주 귀걸이',l:'행운 소품',i:'💎',d:'북쪽',c:'아쿠아 마린'} };
-            const item = p[oh] || p['물']; n=item.n; l=item.l; i=item.i; d=item.d; c=item.c;
-        } else {
-            const p = [ { n:'뱅쇼', l:'소울 푸드', i:'☕', d:'북서쪽', c:'퍼플' }, { n:'다크 초콜릿', l:'소울 푸드', i:'☕', d:'서쪽', c:'딥 블루' } ];
-            const item = p[seed % p.length]; n=item.n; l=item.l; i=item.i; d=item.d; c=item.c;
-        }
-        return { name:n, label:l, icon:i, dir:d, color:c, num:(seed%9)+1 };
+    // 12운성 매핑 로직
+    const W12_MAP = {
+        '甲': ['亥','子','丑','寅','卯','辰','巳','午','未','申','酉','戌'], '丙': ['寅','卯','辰','巳','午','未','申','酉','戌','亥','子','丑'],
+        '戊': ['寅','卯','辰','巳','午','未','申','酉','戌','亥','子','丑'], '庚': ['巳','午','未','申','酉','戌','亥','子','丑','寅','卯','辰'],
+        '壬': ['申','酉','戌','亥','子','丑','寅','卯','辰','巳','午','未'], '乙': ['午','巳','辰','卯','寅','丑','子','亥','戌','酉','申','未'],
+        '丁': ['酉','申','未','午','巳','辰','卯','寅','丑','子','亥','戌'], '己': ['酉','申','未','午','巳','辰','卯','寅','丑','子','亥','戌'],
+        '辛': ['子','亥','戌','酉','申','未','午','巳','辰','卯','寅','丑'], '癸': ['卯','寅','丑','子','亥','戌','酉','申','未','午','巳','辰']
+    };
+    const W12_NAMES = ['장생', '목욕', '관대', '건록', '제왕', '쇠', '병', '사', '묘', '절', '태', '양'];
+    const get12W = (stem, branch) => W12_NAMES[W12_MAP[stem].indexOf(branch)] || '';
+
+    function toggleGunghap() {
+        isGunghapMode = !isGunghapMode;
+        document.getElementById('partner-input-area').style.display = isGunghapMode ? 'block' : 'none';
+        document.getElementById('gun-title').innerText = isGunghapMode ? "궁합 분석하기" : "인연 궁합";
+        document.getElementById('gun-icon').innerText = isGunghapMode ? "🔍" : "❤️";
+        if(isGunghapMode) document.getElementById('partner-input-area').scrollIntoView({behavior:'smooth'});
+        else handleStart('gunghap');
     }
 
-    function getZodiac(m, d) {
-        for (let z of MYSTIC_DATA.ZODIAC_DB) { if ((m === z.start[0] && d >= z.start[1]) || (m === z.end[0] && d <= z.end[1])) return z; }
-        return MYSTIC_DATA.ZODIAC_DB[0];
-    }
+    // --- 핵심 로직 엔진 ---
+    function getBazi(y, m, d, cal, hStr) {
+        let hr = 12, min = 0;
+        if(hStr === 'yaja') { hr = 23; min = 45; }
+        else if(hStr === 'joja') { hr = 0; min = 30; }
+        else if(hStr !== 'none') { hr = parseInt(hStr); min = 0; }
 
-    // ==========================================
-    // ★ 3. LOGIC ENGINES ★
-    // ==========================================
-    function calculateBaseData(type) {
-        const n=document.getElementById('user-name').value, y=parseInt(document.getElementById('user-year').value), m=parseInt(document.getElementById('user-month').value), d=parseInt(document.getElementById('user-day').value), h=document.getElementById('user-time').value, cal=document.getElementById('user-cal').value;
-        let hr=h==='none'?12:parseInt(h); let sol,lun;
-        if(cal==='solar'){sol=Solar.fromYmdHms(y,m,d,hr,0,0); lun=sol.getLunar();} else {lun=Lunar.fromYmdHms(y,m,d,hr,0,0); sol=lun.getSolar();}
-        const bazi=lun.getEightChar(), dG=bazi.getDayGan(), dZ=bazi.getDayZhi(), oh=getOh(dG), seed=n.length+sol.getYear()+sol.getMonth()+sol.getDay()+hr;
+        let sol, lun;
+        if(cal==='solar'){ sol=Solar.fromYmdHms(y,m,d,hr,min,0); lun=sol.getLunar(); } else { lun=Lunar.fromYmdHms(y,m,d,hr,min,0); sol=lun.getSolar(); }
         
-        const ch=[bazi.getYearGan(), bazi.getYearZhi(), bazi.getMonthGan(), bazi.getMonthZhi(), dG, dZ, h==='none'?'':bazi.getTimeGan(), h==='none'?'':bazi.getTimeZhi()];
-        let e={'木':0,'火':0,'土':0,'金':0,'水':0}; ch.forEach(c => { let el = getOh(c); if(el) e[el]++; });
-
-        let res = { name:n, baziChars:{yG:ch[0],yZ:ch[1],mG:ch[2],mZ:ch[3],dG:ch[4],dZ:ch[5],hG:ch[6],hZ:ch[7]}, oh, dG, seed, solStr:`${sol.getYear()}년 ${sol.getMonth()}월 ${sol.getDay()}일`, lunStr:`${lun.getYear()}년 ${lun.getMonth()}월 ${lun.getDay()}일`, e };
-
-        if(type === 'saju') {
-            const tenGodsCount = {'비겁':0, '식상':0, '재성':0, '관성':0, '인성':0};
-            const calcGod = (target) => { 
-                if(!target || target==='모름') return '-'; 
-                const tEl = getOh(target);
-                if(oh === tEl) return '비겁'; if(childEls[oh] === tEl) return '식상'; if(wealthEls[oh] === tEl) return '재성'; if(powerEls[oh] === tEl) return '관성'; if(motherEls[oh] === tEl) return '인성'; return '-';
-            };
-            res.mapping = { yG:calcGod(ch[0]), yZ:calcGod(ch[1]), mG:calcGod(ch[2]), mZ:calcGod(ch[3]), dZ:calcGod(ch[5]), hG:calcGod(ch[6]), hZ:calcGod(ch[7]) };
-            res.domGod = '비겁'; let maxG = -1; for(let g of Object.keys(tenGodsCount)){ if(tenGodsCount[g]>maxG){ maxG=tenGodsCount[g]; res.domGod=g; } }
-            res.myGyukguk = res.mapping.mZ!=='-'?res.mapping.mZ:res.domGod;
-
-            // 합화
-            const br = [ch[1], ch[3], ch[5], ch[7]]; res.habMsg = '';
-            if(br.includes('寅')&&br.includes('午')&&br.includes('戌')) { e['火']+=2; res.habMsg='지지에 인오술(寅午戌) 화국이 형성되어 불의 기운이 폭발적으로 증폭됩니다.'; }
-            else if(br.includes('申')&&br.includes('子')&&br.includes('辰')) { e['水']+=2; res.habMsg='지지에 신자진(申子辰) 수국이 형성되어 물의 기운이 증폭됩니다.'; }
-            
-            // 조후/억부 용신
-            const mZ = ch[3]; res.yong = ''; res.yRsn = '';
-            const mySc = e[oh] + e[motherEls[oh]], opSc = e[childEls[oh]] + e[wealthEls[oh]] + e[powerEls[oh]];
-            if(['亥','子','丑'].includes(mZ) && ['木','水','金'].includes(oh)) { res.yong='火'; res.yRsn=`한겨울(${mZ}월)에 태어나 꽁꽁 얼어붙어 있으니, 만물을 녹일 [화(火)] 기운이 최우선입니다`; }
-            else if(['巳','午','未'].includes(mZ) && ['木','火','土'].includes(oh)) { res.yong='水'; res.yRsn=`한여름(${mZ}월) 용광로 사주이니, 열기를 시원하게 식혀줄 [수(水)] 기운이 최우선입니다`; }
-            else {
-                res.yong = (mySc > opSc) ? ((e[wealthEls[oh]]>=e[powerEls[oh]])?wealthEls[oh]:powerEls[oh]) : ((e[motherEls[oh]]>=e[oh])?motherEls[oh]:oh);
-                if(!res.yong || e[res.yong]===0) res.yong = (mySc > opSc) ? childEls[oh] : motherEls[oh];
-                res.yRsn = (mySc > opSc) ? `신강하여 에너지를 배출할 [${MYSTIC_DATA.YONGSHIN_DB[res.yong].n}] 기운이 필요합니다` : `신약하여 본원을 생조할 [${MYSTIC_DATA.YONGSHIN_DB[res.yong].n}] 기운이 필요합니다`;
-            }
-
-            // 지장간
-            res.hidMsg = ''; const missing = Object.keys(e).filter(k => e[k]===0);
-            if(missing.length > 0) {
-                let found = false; br.forEach(z => { if(hiddenStems[z] && hiddenStems[z].some(s => getOh(s)===missing[0])) found = true; });
-                if(found) res.hidMsg = `표면에 [${MYSTIC_DATA.YONGSHIN_DB[missing[0]].n}] 기운이 없으나, 지장간(땅속) 깊은 곳에 비밀스럽게 품고 있어 위기 시 거대 자산으로 작용합니다.`;
-            }
-
-            // 대운/세운 역동성
-            res.cYear = new Date().getFullYear(); const myAge = res.cYear - sol.getYear() + 1;
-            res.daewun = []; try{ const dyList=bazi.getYun(1).getDaYun(); for(let i=0;i<8;i++)if(dyList[i])res.daewun.push({age:dyList[i].getStartAge(), ganzhi:dyList[i].getGanZhi()}); }catch(err){}
-            res.curDw = res.daewun.find(d => myAge >= d.age) || res.daewun[0] || {age:1, ganzhi:'甲子'};
-            res.dwStart = res.curDw.age; res.dwEnd = res.dwStart+9;
-            
-            res.sG = Lunar.fromDate(new Date()).getYearGan(); res.sZ = Lunar.fromDate(new Date()).getYearZhi(); res.sEl = getOh(res.sG);
-            res.dyn = [];
-            ch.forEach(c => { if(ganHab[c]===res.sG) res.dyn.push(`올해 [${res.sG}] 기운이 당신의 [${c}]과 '천간합'을 이뤄 융합 에너지가 발생합니다.`); });
-            ch.forEach(c => { if(zhiChung[c]===res.sZ) res.dyn.push(`올해 [${res.sZ}] 기운이 당신의 [${c}]을 강하게 충격(충)하여 이동수나 청산이 필요합니다.`); });
-        } 
-        else if (type === 'star') { res.zodiac = getZodiac(sol.getMonth(), sol.getDay()); }
-        else if (type === 'tojeong') {
-            const age = new Date().getFullYear() - lun.getYear() + 1;
-            const t = ((lun.getYear()-4)%12)+1; const u = (t+age)%8||8; const w = (lun.getMonth()%2===0)?2:1; const md = (w+lun.getMonth())%6||6; const l = (lun.getDay()%10)+1; const lw = (l+lun.getDay())%3||3;
-            res.tj = { u, md, lw, c: `${u}${md}${lw}` };
-        }
-
-        return res;
+        const b = lun.getEightChar();
+        const ch = [b.getYearGan(), b.getYearZhi(), b.getMonthGan(), b.getMonthZhi(), b.getDayGan(), b.getDayZhi(), hStr==='none'?'모름':b.getTimeGan(), hStr==='none'?'모름':b.getTimeZhi()];
+        const e = {'木':0,'火':0,'土':0,'金':0,'水':0}; ch.forEach(c=>{ let el=getOh(c); if(el) e[el]++; });
+        
+        return { ch, oh:getOh(ch[4]), dG:ch[4], dZ:ch[5], mZ:ch[3], e, solStr:`${sol.getYear()}년 ${sol.getMonth()}월 ${sol.getDay()}일 ${hr}시 ${min}분`, bazi:b, age:new Date().getFullYear()-y+1, hStr };
     }
 
-    // ==========================================
-    // ★ 4. UI RENDERER ★
-    // ==========================================
+    function calculatePersonal(d) {
+        const br = [d.ch[1], d.ch[3], d.ch[5], d.ch[7]];
+        let abyss = [];
+        
+        // 1. 삼형살/원진/귀문 스캔
+        if((br.includes('寅')&&br.includes('巳')&&br.includes('申')) || (br.includes('丑')&&br.includes('戌')&&br.includes('未'))) abyss.push(MYSTIC_DATA.SHIN_SAL_EXT.삼형살);
+        const wonjinMap = {'子':'未','丑':'午','寅':'酉','卯':'申','辰':'亥','巳':'戌'};
+        if(br.includes(wonjinMap[d.dZ])) abyss.push(MYSTIC_DATA.SHIN_SAL_EXT.원진살);
+        
+        // 2. 공망(空亡) 스캔 로직 (끝판왕)
+        const stems = '甲乙丙丁戊己庚辛壬癸', branches = '子丑寅卯辰巳午未申酉戌亥';
+        const sIdx = stems.indexOf(d.dG), zIdx = branches.indexOf(d.dZ);
+        const gm1 = branches.charAt((10 - sIdx + zIdx) % 12);
+        const gm2 = branches.charAt((11 - sIdx + zIdx) % 12);
+        const gongmangList = [gm1, gm2];
+        let hasGongmang = [];
+        if (gongmangList.includes(d.ch[1])) hasGongmang.push('년지');
+        if (gongmangList.includes(d.ch[3])) hasGongmang.push('월지');
+        if (gongmangList.includes(d.ch[7]) && d.hStr !== 'none') hasGongmang.push('시지');
+        d.gongmang = { chars: `${gm1}, ${gm2}`, pos: hasGongmang };
+
+        // 3. 십이운성 (12운성) 스캔
+        d.w12 = { social: get12W(d.dG, d.ch[3]), personal: get12W(d.dG, d.ch[5]) };
+
+        // 4. 억부/조후 용신
+        const motherEls={'木':'水','火':'木','土':'火','金':'土','水':'金'}, childEls={'木':'火','火':'土','土':'金','金':'水','水':'木'};
+        const wealthEls={'木':'土','火':'金','土':'水','金':'木','水':'火'}, powerEls={'木':'金','火':'水','土':'木','金':'火','水':'土'};
+        
+        const mySc = d.e[d.oh] + d.e[motherEls[d.oh]], opSc = d.e[childEls[d.oh]] + d.e[wealthEls[d.oh]] + d.e[powerEls[d.oh]];
+        d.yong = (mySc > opSc) ? ((d.e[wealthEls[d.oh]]>=d.e[powerEls[d.oh]])?wealthEls[d.oh]:powerEls[d.oh]) : ((d.e[motherEls[d.oh]]>=d.e[d.oh])?motherEls[d.oh]:d.oh);
+        if(!d.yong || d.e[d.yong]===0) d.yong = (mySc > opSc) ? childEls[d.oh] : motherEls[d.oh];
+        
+        const sG = '丙', sZ = '午'; // 2026 병오년 고정
+        d.dyn = [];
+        if({'甲':'己', '己':'甲', '乙':'庚', '庚':'乙', '丙':'辛', '辛':'丙', '丁':'壬', '壬':'丁', '戊':'癸', '癸':'戊'}[d.dG]===sG) d.dyn.push(`올해 [${sG}] 기운이 당신의 일간[${d.dG}]과 천간합을 이뤄 새로운 인연이 예견됩니다.`);
+        if({'子':'午', '午':'子', '丑':'未', '未':'丑', '寅':'申', '申':'寅', '卯':'酉', '酉':'卯', '辰':'戌', '戌':'辰', '巳':'亥', '亥':'巳'}[d.dZ]===sZ) d.dyn.push(`올해 [${sZ}] 기운이 당신의 안방[${d.dZ}]을 충격하여 환경 변화가 예상됩니다.`);
+
+        return { ...d, abyss };
+    }
+
     function handleStart(type) {
-        if(!MYSTIC_DATA) return alert("데이터베이스를 불러오는 중입니다. 잠시만 기다려주세요.");
-        if(!document.getElementById('user-name').value) return alert("성함을 입력해주세요.");
+        const name = document.getElementById('user-name').value;
+        if(!name) return alert("성함을 입력해주세요.");
         
         document.getElementById('loader').style.display='flex';
-        document.getElementById('loader-text').innerText = "운명의 실타래 해독 중...";
-        
         setTimeout(() => {
             try {
-                if (type === 'tarot') { document.getElementById('loader').style.display='none'; document.getElementById('home-view').style.display='none'; document.getElementById('tarot-pick-view').style.display='block'; renderDeck(); return; }
-                const d = calculateBaseData(type);
-                document.getElementById('loader').style.display='none'; document.getElementById('home-view').style.display='none'; document.getElementById('result-view').style.display='block'; renderFinalReport(type, d);
-            } catch(e) { console.error(e); alert("계산 중 오류가 발생했습니다. 생년월일을 확인해주세요."); document.getElementById('loader').style.display='none'; }
-        }, 800);
+                let h = "";
+                if(type === 'tarot') { document.getElementById('loader').style.display='none'; document.getElementById('home-view').style.display='none'; document.getElementById('tarot-pick-view').style.display='block'; renderDeck(); return; }
+
+                const me = calculatePersonal(getBazi(parseInt(document.getElementById('user-year').value), parseInt(document.getElementById('user-month').value), parseInt(document.getElementById('user-day').value), document.getElementById('user-cal').value, document.getElementById('user-time').value));
+                me.name = name;
+
+                if(type === 'gunghap') {
+                    const pName = document.getElementById('partner-name').value;
+                    if(!pName) { document.getElementById('loader').style.display='none'; return alert("상대방 이름을 입력해주세요."); }
+                    const you = calculatePersonal(getBazi(parseInt(document.getElementById('p-year').value), parseInt(document.getElementById('p-month').value), parseInt(document.getElementById('p-day').value), document.getElementById('p-cal').value, document.getElementById('p-time').value));
+                    you.name = pName;
+                    h = renderGunghap(me, you);
+                } else if(type === 'saju') { h = renderSaju(me); } 
+                else if(type === 'tojeong') { h = renderTojeong(me); }
+
+                document.getElementById('report-content').innerHTML = h;
+                document.getElementById('loader').style.display='none'; document.getElementById('home-view').style.display='none'; document.getElementById('result-view').style.display='block';
+                setTimeout(() => { document.querySelectorAll('.fade-in-section').forEach(s => s.classList.add('is-visible')); }, 100);
+                window.scrollTo(0,0);
+            } catch(e) { console.error(e); alert("오류가 발생했습니다."); document.getElementById('loader').style.display='none'; }
+        }, 1000);
     }
 
-    function renderFinalReport(type, d) {
-        let h = `<div class="daily-fortune"><h3>오늘의 운명지수</h3><p>"거대한 파도를 타고 도약하는 시기입니다."</p></div>
-                 <div class="profile-box"><h2>${d.name}</h2><p>${d.solStr} (양력)</p></div>`;
-
-        if(type==='saju') {
-            h += wrap(`<div class="summary-box">귀하의 명식은 [${MYSTIC_DATA.GYUKGUK_DB[d.myGyukguk].n}] 형국으로, 삶의 고비마다 [${MYSTIC_DATA.YONGSHIN_DB[d.yong].n}] 기운을 활용할 때 눈부신 성취를 이룹니다.</div>`);
-
-            h += wrap(`<div class="sec-title">사주 명식표</div>
-                <div class="pillar-row">
-                    <div class="pillar"><span>시주</span><div class="ten-god-top">${d.mapping.hG}</div><b class="stem">${d.baziChars.hG}</b><b class="branch">${d.baziChars.hZ}</b></div>
-                    <div class="pillar" style="border-color:var(--accent-gold);"><span>일주(나)</span><div class="ten-god-top">本</div><b class="stem" style="color:var(--accent-gold-light);">${d.baziChars.dG}</b><b class="branch">${d.baziChars.dZ}</b></div>
-                    <div class="pillar"><span>월주</span><div class="ten-god-top">${d.mapping.mG}</div><b class="stem">${d.baziChars.mG}</b><b class="branch">${d.baziChars.mZ}</b></div>
-                    <div class="pillar"><span>연주</span><div class="ten-god-top">${d.mapping.yG}</div><b class="stem">${d.baziChars.yG}</b><b class="branch">${d.baziChars.yZ}</b></div>
-                </div>`);
-
-            let abyss = `<p><b class="basis-text">용신 정밀 타겟팅:</b> ${d.yRsn}.</p>`;
-            if(d.habMsg) abyss += `<p><b class="basis-text">오행 변환(合化):</b> ${d.habMsg}</p>`;
-            if(d.hidMsg) abyss += `<p><b class="basis-text">지장간(숨겨진 무기):</b> ${d.hidMsg}</p>`;
-            h += UI_Section("🌌 심연의 통변: 숨겨진 비밀", "사주의 깊은 곳을 스캔한 결과입니다.", "", UI_Box("", abyss));
-
-            if(d.dyn.length > 0) {
-                h += UI_Section("⚡ 운명의 역동성: 합충파해", `올해 ${d.cYear}년의 기운과 사주의 충돌/융합 결과입니다.`, "", UI_Box("", d.dyn.map(msg=>`<p>📍 ${msg}</p>`).join('')));
-            }
-
-            let dwText = `현재 [${d.curDw.ganzhi}] 대운 중심을 지나며, ${getOh(d.curDw.ganzhi.charAt(0))===d.yong?'황금기이니 과감히 도전하세요.':'조정기이니 내실을 다지세요.'}`;
-            let seunText = `올해 [${d.sG}${d.sZ}년] 세운은 ${d.sEl===d.yong?'대길의 해이니 질주하십시오.':'관망의 해이니 실력을 축적하세요.'}`;
-            h += UI_Section("⏳ 현재 운세 기상도", "10년 주기 대운과 올해 세운 스캔:", "", UI_Box(`나의 10년 사이클 (${d.dwStart}~${d.dwEnd}세)`, `<p>${dwText}</p><hr style="border-color:rgba(255,255,255,0.1); margin:15px 0;"><h4 style="color:var(--color-fire); margin-bottom:10px; font-size:1.15rem;">올해 ${d.cYear}년의 흐름</h4><p>${seunText}</p>`));
-
-            h += UI_Section("본원의 거울: 일간 기질", d.dG+" 일간의 특징: ", MYSTIC_DATA.JIGAN_DB[d.dG].desc);
-            h += UI_Section("🌱 인생 3단계 흐름", "생애 주기별 분석:", `<br><b>초년:</b> ${MYSTIC_DATA.LIFETIME_DB.e[d.oh]}<br><br><b>중년:</b> ${MYSTIC_DATA.LIFETIME_DB.m[d.oh]}<br><br><b>말년:</b> ${MYSTIC_DATA.LIFETIME_DB.l[d.oh]}`);
-            h += UI_Section("💎 입체 통변", "오행과 십성 크로스 매칭:", `<br><b>💰 재물:</b> ${MYSTIC_DATA.LIFETIME_DB.w[d.oh]} 또한 [${d.domGod}] 발달로 ${MYSTIC_DATA.GOD_DB[d.domGod]?MYSTIC_DATA.GOD_DB[d.domGod].w:''}<br><br><b>💼 직업:</b> ${MYSTIC_DATA.LIFETIME_DB.c[d.oh]} 특히 ${MYSTIC_DATA.GOD_DB[d.domGod]?MYSTIC_DATA.GOD_DB[d.domGod].c:''} 환경 유리<br><br><b>❤️ 애정:</b> ${MYSTIC_DATA.LIFETIME_DB.l_v[d.oh]} ${MYSTIC_DATA.GOD_DB[d.domGod]?MYSTIC_DATA.GOD_DB[d.domGod].l:''}`);
-
-        } else if (type === 'star') {
-            const z = d.zodiac;
-            h += wrap(`<div class="summary-box">"원소 기호 [${z.element}]의 에너지를 품은 영혼"</div>
-                <div class="stat-grid" style="margin-bottom:40px;">
-                    <div class="stat-item"><span class="stat-label">수호 행성</span><span class="stat-val">${z.planet}</span></div>
-                    <div class="stat-item"><span class="stat-label">소울메이트</span><span class="stat-val">${z.match}</span></div>
-                </div>`);
-            h += UI_Section(`우주적 지문: ${z.sign}자리`, "본연의 기질과 영혼의 색깔:", z.trait);
-            h += UI_Section("💰 부의 끌어당김", "재물운 흐름:", z.wealth);
-            h += UI_Section("💼 별이 내린 천직", "직업적 소명:", z.career);
-            h += UI_Section("❤️ 운명적 끌림", "파트너십과 사랑:", z.love);
-            
-        } else if (type === 'tojeong') {
-            const poem = MYSTIC_DATA.TOJEONG_DB.poems[(d.tj.u+d.tj.md+d.seed) % MYSTIC_DATA.TOJEONG_DB.poems.length];
-            const p3 = d.tj.lw===1?"초심을 잃지 마십시오.":d.tj.lw===2?"이웃에게 베풀 때 행운이 정착합니다.":"자기 관리와 절제를 유지하세요.";
-            h += wrap(`<div style="text-align:center; margin:40px 0;"><span style="font-size:4.5rem; font-weight:800; color:var(--accent-gold);">No. ${d.tj.c}</span></div>`);
-            h += UI_Box("📜 신년 사언절구", `<div style="text-align:center;"><p style="font-size:2.2rem; letter-spacing:10px; color:var(--accent-gold-light); margin-bottom:15px; font-family:'Batang',serif;">${poem.hj}</p><p style="font-size:1.2rem; font-weight:700;">"${poem.kr}"</p><p style="color:var(--text-muted); margin-top:10px;">${poem.desc}</p></div>`);
-            h += UI_Section("신수(身數) 심층 리포트", "올해의 전체적인 흐름:", `<br><br>${MYSTIC_DATA.TOJEONG_DB.tA[d.tj.u]}<br><br>${MYSTIC_DATA.TOJEONG_DB.tB[d.tj.md]}<br><br>${p3}`);
-            
-            let mHtml = '<div style="display:grid; gap:20px; margin-top:30px;">';
-            let ls = parseInt(d.tj.c)+d.seed;
-            for(let i=1;i<=12;i++){ 
-                ls+=(i*7); let rnd = Math.sin(ls)*10000; rnd=rnd-Math.floor(rnd); 
-                let t = MYSTIC_DATA.TOJEONG_DB.mP[Math.floor(rnd*MYSTIC_DATA.TOJEONG_DB.mP.length)];
-                let s = 70+Math.floor((Math.sin(ls*i)+1)*14);
-                mHtml += `<div style="background:rgba(255,255,255,0.03); padding:25px; border-radius:20px; border:1px solid var(--card-border);"><h4 style="color:var(--accent-gold-light); margin-bottom:10px;">${i}월 (지수: ${s}%)</h4><p>${t}</p></div>`;
-            }
-            mHtml += '</div>';
-            h += UI_Section("12개월 정밀 타임라인", "월별 상세 브리핑:", "", mHtml);
-        } else if (type === 'tarot_result') {
-            h += wrap(`<div class="sec-title">메이저 아르카나 심층 리딩</div>`);
-            const labels = ["과거의 유산", "현재의 파동", "미래의 결속"];
-            const keys = ["past", "present", "future"];
-            d.tarotRes.forEach((c,i) => {
-                h += wrap(`<div style="margin-bottom:80px; text-align:center;">
-                        <span style="color:var(--accent-gold-light); font-weight:700; display:block; margin-bottom:20px;">✦ ${labels[i]} ✦</span>
-                        <div style="width:180px; height:280px; margin:0 auto 30px; background:#0b0e14; border:2px solid var(--accent-gold); border-radius:18px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
-                            <b style="font-size:5rem; margin-bottom:20px;">${c.icon}</b>
-                            <span style="color:var(--accent-gold-light); font-weight:700;">${c.name}</span>
-                        </div>
-                        <div class="detail-text" style="text-align:justify;">
-                            <div class="summary-box" style="margin:20px 0;">"${c.msg}"</div>
-                            <p>${c[keys[i]]}</p>
-                            <div style="background:rgba(212,175,55,0.06); padding:25px; border-radius:20px; border-left:4px solid var(--accent-gold); text-align:left;">
-                                <b style="color:var(--accent-gold-light); display:block; margin-bottom:10px;">💡 무의식의 1:1 조언</b>
-                                <span>${c.advice}</span>
-                            </div>
-                        </div>
-                    </div>`);
-            });
-        }
-
-        // 개운템
-        let itemOh = d.oh; if(type==='star') itemOh = d.zodiac.element;
-        const cLuck = getSingleKeywordLuck(type, itemOh, d.seed);
-        h += wrap(`<div class="action-box">
-            <h2>✨ 운명을 바꾸는 처방</h2>
-            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:20px 0;">
-                <div style="background:rgba(0,0,0,0.3); padding:15px; border-radius:15px; border:1px solid var(--card-border);">컬러<br><b style="color:var(--accent-gold-light); font-size:1.2rem;">${cLuck.color}</b></div>
-                <div style="background:rgba(0,0,0,0.3); padding:15px; border-radius:15px; border:1px solid var(--card-border);">방위<br><b style="color:var(--accent-gold-light); font-size:1.2rem;">${cLuck.dir}</b></div>
-                <div style="background:rgba(0,0,0,0.3); padding:15px; border-radius:15px; border:1px solid var(--card-border);">숫자<br><b style="color:var(--accent-gold-light); font-size:1.2rem;">${cLuck.num}</b></div>
-            </div>
-            <a href="https://www.coupang.com/np/search?q=${encodeURIComponent(cLuck.name)}&utm_source=affiliate" target="_blank" class="btn-rec">🛍️ ${cLuck.icon} ${cLuck.label} [ ${cLuck.name} ] 찾기</a>
-            <div style="margin-top:20px; font-size:0.75rem; color:var(--text-muted); opacity:0.6;">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</div>
+    function renderSaju(d) {
+        let h = `<div class="daily-fortune"><h3>오늘의 운명지수</h3><p>"모든 퍼즐이 맞춰지고 진면목이 드러나는 시기입니다."</p></div>
+                 <div class="profile-box"><h2>${d.name}</h2><p>${d.solStr} (보정완료)</p></div>`;
+        
+        // 명식표
+        h += wrap(`<div class="pillar-row" style="margin-top:40px;">
+            <div class="pillar"><span>시주</span><b>${d.ch[6]}</b><b>${d.ch[7]}</b></div>
+            <div class="pillar" style="border-color:var(--accent-gold);"><span>일주(나)</span><b style="color:var(--accent-gold-light);">${d.ch[4]}</b><b>${d.ch[5]}</b></div>
+            <div class="pillar"><span>월주</span><b>${d.ch[2]}</b><b>${d.ch[3]}</b></div>
+            <div class="pillar"><span>연주</span><b>${d.ch[0]}</b><b>${d.ch[1]}</b></div>
         </div>`);
 
-        document.getElementById('report-content').innerHTML = h;
-        setTimeout(() => { document.querySelectorAll('.fade-in-section').forEach(s => s.classList.add('is-visible')); }, 100);
-        window.scrollTo({top:0, behavior:'smooth'});
-    }
+        // 오행 차트
+        let chart = `<div class="element-chart-container">`;
+        ['木','火','土','金','水'].forEach(el => {
+            const colors = {'木':'wood','火':'fire','土':'earth','金':'metal','水':'water'};
+            chart += `<div class="bar-wrap"><div class="bar-label" style="color:var(--color-${colors[el]})">${el}</div><div class="bar-bg"><div class="bar-fill fill-${colors[el]}" style="width:${(d.e[el]/8)*100}%"></div></div></div>`;
+        });
+        h += chart + `</div>`;
 
-    function renderDeck() {
-        const area=document.getElementById('tarot-spread-area'); area.innerHTML=''; tarotChoices=[];
-        let currentTarotDeck = [...MYSTIC_DATA.TAROT_DB].sort(()=>0.5-Math.random());
-        for(let i=0; i<22; i++){
-            const c=document.createElement('div'); c.className='tarot-card-container'; 
-            c.onclick=()=>pickTarot(i, currentTarotDeck);
-            c.innerHTML=`<div class="tarot-card-inner" id="t-inner-${i}"><div class="tarot-card-front"></div><div class="tarot-card-back" id="t-back-${i}"></div></div>`;
-            area.appendChild(c);
-        }
-    }
-
-    let tarotChoices = [];
-    function pickTarot(i, deck) {
-        if(tarotChoices.some(c=>c.idx===i) || tarotChoices.length>=3) return;
-        tarotChoices.push({idx:i, data:deck[i % deck.length]});
-        document.getElementById(`t-back-${i}`).innerText = deck[i % deck.length].icon;
-        document.getElementById(`t-inner-${i}`).classList.add('flipped');
-        document.getElementById('tarot-count-info').innerText=`3장 중 ${tarotChoices.length}장 선택됨`;
+        // ★ 끝판왕 로직 렌더링 ★
+        let masterHtml = `<div style="background:rgba(255,255,255,0.03); padding:25px; border-radius:24px; border:1px solid var(--accent-gold); margin-bottom:50px;">`;
         
-        if(tarotChoices.length===3) {
-            const l=document.getElementById('loader'), lt=document.getElementById('loader-text');
-            l.style.display='flex'; lt.innerText="카드의 파동을 읽는 중...";
-            setTimeout(()=>{
-                try {
-                    const d = calculateBaseData('tarot'); d.tarotRes=tarotChoices.map(c=>c.data);
-                    l.style.display='none'; document.getElementById('tarot-pick-view').style.display='none'; document.getElementById('result-view').style.display='block'; 
-                    renderFinalReport('tarot_result', d);
-                } catch(e) { alert("오류가 발생했습니다."); l.style.display='none'; }
-            }, 1500);
+        // 1. 십이운성
+        masterHtml += `<p style="margin-bottom:15px;"><b class="basis-text">십이운성(十二運星) 에너지:</b> 귀하의 사회적 역량은 <b>[${d.w12.social}]</b>, 개인적 성향은 <b>[${d.w12.personal}]</b>의 에너지를 띠고 있습니다. <br><span style="font-size:0.95rem; color:var(--text-muted);">${MYSTIC_DATA.WOUNSUNG_DB[d.w12.personal]}</span></p>`;
+        
+        // 2. 공망 스캔
+        if(d.gongmang.pos.length > 0) {
+            let gmDesc = d.gongmang.pos.map(pos => MYSTIC_DATA.GONGMANG_DB[pos]).join(' ');
+            masterHtml += `<p style="margin-bottom:15px;"><b class="basis-text">공망(空亡) 스캔 결과 (${d.gongmang.chars}):</b> 귀하의 명식 중 <b>${d.gongmang.pos.join(', ')}</b> 자리에 공망이 들었습니다. <br><span style="font-size:0.95rem; color:var(--text-muted);">${gmDesc}</span></p>`;
+        } else {
+            masterHtml += `<p style="margin-bottom:15px;"><b class="basis-text">공망(空亡) 스캔 결과:</b> 귀하의 명식 주요 자리에는 밑 빠진 독이라 불리는 공망이 발견되지 않아 채워진 에너지를 오롯이 쓸 수 있습니다.</p>`;
         }
+
+        // 3. 심연의 살 (삼형, 원진 등)
+        if(d.abyss.length > 0) {
+            d.abyss.forEach(a => { masterHtml += `<p style="margin-bottom:15px;"><b class="basis-text">${a.n}:</b> <span style="font-size:0.95rem; color:var(--text-muted);">${a.d}</span></p>`; });
+        }
+        masterHtml += `</div>`;
+        h += UI_Sec("🌌 명리학의 끝판왕: 정밀 심연 스캔", "12운성, 공망, 그리고 특수 살성 분석:", "", masterHtml);
+
+        h += UI_Sec("🧭 운명의 가이드", "나를 살리는 용신 분석:", MYSTIC_DATA.YONGSHIN_DB[d.yong].d);
+        h += UI_Sec("🌱 인생의 흐름", "본원의 기질과 평생운:", `<br><b>기질:</b> ${MYSTIC_DATA.JIGAN_DB[d.dG].desc}<br><br><b>초년:</b> ${MYSTIC_DATA.LIFETIME_DB.e[d.oh]}<br><br><b>중년:</b> ${MYSTIC_DATA.LIFETIME_DB.m[d.oh]}<br><br><b>말년:</b> ${MYSTIC_DATA.LIFETIME_DB.l[d.oh]}`);
+        h += UI_Sec("💎 입체 통변", "분야별 상세 분석:", `<br><b>💰 재물:</b> ${MYSTIC_DATA.LIFETIME_DB.w[d.oh]}<br><br><b>💼 직업:</b> ${MYSTIC_DATA.LIFETIME_DB.c[d.oh]}<br><br><b>❤️ 애정:</b> ${MYSTIC_DATA.LIFETIME_DB.l_v[d.oh]}`);
+        
+        return h;
     }
 
-    function goHome() { document.getElementById('result-view').style.display='none'; document.getElementById('tarot-pick-view').style.display='none'; document.getElementById('home-view').style.display='block'; window.scrollTo(0,0); }
-    function downloadImage() { alert("캡처 준비 완료!"); }
-    function shareReport() { alert("링크 복사 완료!"); }
+    function renderGunghap(me, you) {
+        let score = 70;
+        if({'甲':'己', '己':'甲', '乙':'庚', '庚':'乙', '丙':'辛', '辛':'丙', '丁':'壬', '壬':'丁', '戊':'癸', '癸':'戊'}[me.dG] === you.dG) score += 20;
+        if(me.yong === you.oh) score += 15;
+        if({'子':'午', '午':'子', '丑':'未', '未':'丑', '寅':'申', '申':'寅', '卯':'酉', '酉':'卯', '辰':'戌', '戌':'辰', '巳':'亥', '亥':'巳'}[me.dZ] === you.dZ) score -= 25;
 
-    // ==========================================
-    // ★ 5. INITIALIZATION & FETCH ★
-    // ==========================================
-    function initUI() {
-        const yS=document.getElementById('user-year'), mS=document.getElementById('user-month'), dS=document.getElementById('user-day');
-        if(yS){ for(let i=2024;i>=1940;i--) yS.add(new Option(i+'년', i)); for(let i=1;i<=12;i++) mS.add(new Option(i+'월', i)); for(let i=1;i<=31;i++) dS.add(new Option(i+'일', i)); yS.value=1990; mS.value=1; dS.value=1; }
-        document.getElementById('visitor-ui').innerHTML = `🌟 누적 방문자 <b>${Math.floor(Math.random()*1000)+5000}</b>명 돌파`;
+        let level = score >= 85 ? "good" : (score >= 60 ? "normal" : "bad");
+        const res = MYSTIC_DATA.GUNGHAP_DB[level];
+
+        let h = `<div class="daily-fortune"><h3>❤️ 초정밀 궁합지수: ${score}점</h3><p>"${res.t}"</p></div>
+                 <div style="display:flex; justify-content:center; gap:10px; margin-bottom:40px;">
+                    <div class="pillar" style="flex:1;"><span>${me.name}</span><b style="color:var(--accent-gold-light);">${me.dG}</b><b>${me.dZ}</b></div>
+                    <div style="font-size:2rem; align-self:center;">💖</div>
+                    <div class="pillar" style="flex:1;"><span>${you.name}</span><b style="color:var(--accent-gold-light);">${you.dG}</b><b>${you.dZ}</b></div>
+                 </div>`;
+        
+        h += UI_Box("👩‍❤️‍👨 우주적 인연의 결론", res.d);
+        h += UI_Sec("🤝 상호 기운 분석", "오행과 용신의 조화:", `[${me.name}]님의 구원 기운인 <b>${me.yong}</b>을(를) [${you.name}]님이 ${you.e[me.yong]>0?'충분히 채워주고 있어 서로 끌리는 인연입니다.':'서로 다른 방식으로 채워나가야 하는 관계입니다.'}`);
+        
+        return h;
     }
 
-    async function loadData() {
-        const loader = document.getElementById('loader');
-        const mainApp = document.getElementById('main-app');
+    function renderTojeong(d) {
+        const poem = MYSTIC_DATA.TOJEONG_DB.poems[0];
+        return `<div class="tj-code-wrap"><span class="code" style="font-size:3.5rem;">2026 신수</span></div>` + UI_Box("📜 신년 사언절구", `<p style="font-size:1.5rem; color:var(--accent-gold-light); text-align:center;">${poem.hj}</p><p style="text-align:center; font-weight:700;">"${poem.kr}"</p>`) + UI_Sec("신수 리포트", "2026년 전체 흐름:", MYSTIC_DATA.TOJEONG_DB.tA[Math.floor(Math.random()*MYSTIC_DATA.TOJEONG_DB.tA.length)]);
+    }
+
+    // --- 초기화 ---
+    window.onload = async () => {
+        const yS=document.getElementById('user-year'), mS=document.getElementById('user-month'), dS=document.getElementById('user-day'), py=document.getElementById('p-year'), pm=document.getElementById('p-month'), pd=document.getElementById('p-day');
+        [yS, py].forEach(s => { for(let i=2025;i>=1930;i--) s.add(new Option(i+'년', i)); });
+        [mS, pm].forEach(s => { for(let i=1;i<=12;i++) s.add(new Option(i+'월', i)); });
+        [dS, pd].forEach(s => { for(let i=1;i<=31;i++) s.add(new Option(i+'일', i)); });
+        yS.value = 1995; py.value = 1995;
+        
         try {
-            const response = await fetch('data.json');
-            if (!response.ok) throw new Error('Data fetch failed');
-            MYSTIC_DATA = await response.json();
-            initUI();
-            loader.style.display = 'none';
-            mainApp.style.display = 'block';
-        } catch (error) {
-            console.error(error);
-            document.getElementById('loader-text').innerText = "데이터 로딩 실패! (로컬 서버 환경을 확인해주세요)";
-        }
-    }
-
-    window.onload = loadData;
+            const r = await fetch('data.json'); MYSTIC_DATA = await r.json();
+            document.getElementById('loader').style.display='none'; document.getElementById('main-app').style.display='block';
+        } catch(e) { document.getElementById('loader-text').innerText="데이터 로딩 실패!"; }
+    };
+    function goHome() { location.reload(); }
 </script>
 </body>
 </html>
 
-
-```
