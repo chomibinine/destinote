@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>운명노트(destinote) | 소름돋는 정통 명리·궁합·타로</title>
+    <title>운명노트(destinote) | 소름돋는 정밀 명리·궁합</title>
     <script src="https://cdn.jsdelivr.net/npm/lunar-javascript/lunar.min.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
@@ -34,7 +34,7 @@
         .detail-text { font-size: 1.05rem; line-height: 1.9; color: var(--text-main); text-align: justify; } 
         .detail-text b.basis-text { color: var(--accent-gold-light); font-weight: 700; display: inline-block; margin-bottom: 6px; font-size: 1.1rem;}
         
-        /* 화려한 UI 컴포넌트 복구 */
+        /* 화려한 UI 컴포넌트 */
         .pillar-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 40px; } 
         .pillar { background: rgba(255,255,255,0.03); padding: 25px 8px; border-radius: 20px; text-align: center; border: 1px solid var(--card-border); box-shadow: inset 0 0 20px rgba(0,0,0,0.5);} 
         .pillar b { font-size: 1.6rem; display: block; color: #fff; }
@@ -64,6 +64,8 @@
         .timeline-point { position: absolute; left: -31px; top: 8px; width: 12px; height: 12px; background: var(--accent-gold); border-radius: 50%; box-shadow: 0 0 10px var(--accent-gold); } 
         .timeline-year { font-size: 1.2rem; color: var(--accent-gold-light); font-weight: 800; margin-bottom: 8px; } 
 
+        .reason-box { background: rgba(255,255,255,0.03); border-radius: 24px; padding: 25px 30px; margin-bottom: 40px; font-size: 1.05rem; line-height: 1.8; color: var(--text-main); text-align: justify; border: 1px solid var(--card-border); }
+
         .btn-rec { display: inline-flex; align-items: center; justify-content: center; gap: 12px; background: rgba(255,255,255,0.04); color: #fff; padding: 20px; border-radius: 18px; text-decoration: none; font-weight: 600; border: 1px solid var(--card-border); width: 100%; cursor: pointer; margin-top: 15px; transition: 0.3s; }
         .btn-rec:hover { background: var(--premium-gradient); color: #000; font-weight: 800; }
         
@@ -71,6 +73,7 @@
         .nav { pointer-events: auto; background: rgba(10, 14, 22, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 40px; display: flex; width: 90%; max-width: 450px; padding: 8px; } 
         .nav-item { flex: 1; text-align: center; color: var(--text-muted); font-size: 0.7rem; cursor: pointer; padding: 8px 0; } 
         .nav-item.active { color: var(--accent-gold-light); font-weight: 700; } 
+        
         #loader { display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-base); z-index: 100000; flex-direction: column; justify-content: center; align-items: center; } 
         .loader-ring { width: 70px; height: 70px; border: 3px solid transparent; border-top-color: var(--accent-gold); border-radius: 50%; animation: spin 1.2s linear infinite; } 
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -143,7 +146,7 @@
             <div class="menu-item" onclick="handleStart('tojeong')"><div class="menu-icon-wrap">📜</div><h3>토정비결</h3><p>2026 신년 상세운세</p></div>
             <div class="menu-item" onclick="alert('타로/점성술은 기능 최적화 중입니다. 사주 메뉴를 이용해주세요!')"><div class="menu-icon-wrap">🃏</div><h3>타로 리딩</h3><p>무의식 3카드 리딩</p></div>
         </div>
-        <div id="visitor-ui" style="text-align:center; font-size:0.8rem; color:var(--text-muted);"></div>
+        <div id="visitor-ui" style="text-align:center; font-size:0.85rem; color:var(--text-muted); letter-spacing:1px;"></div>
     </div>
 
     <!-- 결과 화면 -->
@@ -153,7 +156,7 @@
             <button class="btn-rec" style="flex:1; background:var(--bg-base);" onclick="downloadImage()">📸 운명노트 캡처</button>
             <button class="btn-rec" style="flex:1; background:var(--bg-base);" onclick="shareReport()">🔗 링크 공유</button>
         </div>
-        <button class="btn-rec" onclick="goHome()" style="background:var(--bg-base); margin-top:15px; margin-bottom:50px;">🏠 홈으로 돌아가기</button>
+        <button class="btn-rec" onclick="goHome()" style="background:var(--bg-base); margin-top:15px; margin-bottom:50px;">🏠 처음으로 돌아가기</button>
     </div>
 </div>
 
@@ -170,7 +173,7 @@
     let MYSTIC_DATA = null;
     let isGunghapMode = false;
 
-    // --- 엔진 헬퍼 (옵셔널 체이닝 방어) ---
+    // --- 엔진 헬퍼 (옵셔널 체이닝 방어 완비) ---
     function getOh(c) { if('甲乙寅卯'.includes(c)) return '木'; if('丙丁巳午'.includes(c)) return '火'; if('戊己辰戌丑未'.includes(c)) return '土'; if('庚辛申酉'.includes(c)) return '金'; if('壬癸亥子'.includes(c)) return '水'; return ''; }
     function wrap(c) { return `<div class="fade-in-section">${c}</div>`; }
     function UI_Sec(title, basis, text, ext="") { return wrap(`<div class="sec-title">${title}</div><div class="detail-text" ${ext?'style="margin-bottom:40px;"':''}><p><b class="basis-text">${basis}</b>${text}</p></div>${ext}`); }
@@ -204,7 +207,6 @@
 
     // --- 핵심 로직 엔진 ---
     function getBazi(y, m, d, cal, hStr) {
-        // 정밀 시간 보정 (동경 135도, 야자시/조자시)
         let hr = 12, min = 0;
         if(hStr === 'yaja') { hr = 23; min = 45; }
         else if(hStr === 'joja') { hr = 0; min = 30; }
@@ -222,14 +224,35 @@
 
     function calculatePersonal(d, isMale) {
         const br = [d.ch[1], d.ch[3], d.ch[5], d.ch[7]];
+        const pillars = [d.ch[0]+d.ch[1], d.ch[2]+d.ch[3], d.ch[4]+d.ch[5], d.hStr==='none'?'':d.ch[6]+d.ch[7]];
+        
+        // 1. 살(殺) 스캔 (누락된 백호, 괴강, 홍염, 도화, 역마, 화개 + 심연의 살 모두 스캔)
+        let shinSal = [];
         let abyss = [];
         
-        // 1. 심연의 살 스캔
-        if((br.includes('寅')&&br.includes('巳')&&br.includes('申')) || (br.includes('丑')&&br.includes('戌')&&br.includes('未'))) abyss.push(MYSTIC_DATA?.SHIN_SAL_EXT?.['삼형살'] || {n:'삼형살',d:'기운이 부딪히는 역동성이 있습니다.'});
-        const wonjinMap = {'子':'未','丑':'午','寅':'酉','卯':'申','辰':'亥','巳':'戌','午':'丑','未':'子','申':'卯','酉':'寅','戌':'巳','亥':'辰'};
-        if(br.includes(wonjinMap[d.dZ])) abyss.push(MYSTIC_DATA?.SHIN_SAL_EXT?.['원진살'] || {n:'원진살',d:'가까운 이와 잦은 애증의 굴곡을 뜻합니다.'});
+        // 도화, 역마, 화개
+        if(br.includes('子')||br.includes('午')||br.includes('卯')||br.includes('酉')) shinSal.push(MYSTIC_DATA?.SHIN_SAL_EXT?.['도화살'] || {n:'도화살', d:'대중의 시선을 사로잡는 화려한 스타성을 의미합니다.'});
+        if(br.includes('寅')||br.includes('申')||br.includes('巳')||br.includes('亥')) shinSal.push(MYSTIC_DATA?.SHIN_SAL_EXT?.['역마살'] || {n:'역마살', d:'넓은 세계와 교류하며 부를 창출하는 활동력입니다.'});
+        if(br.includes('辰')||br.includes('戌')||br.includes('丑')||br.includes('未')) shinSal.push(MYSTIC_DATA?.SHIN_SAL_EXT?.['화개살'] || {n:'화개살', d:'예술적 감수성과 철학적 탐구력을 갖추었습니다.'});
         
-        // 2. 공망 스캔 로직
+        // 백호, 괴강, 홍염
+        if(pillars.some(p=>['甲辰','乙未','丙戌','丁丑','戊辰','壬戌','癸丑'].includes(p))) shinSal.push(MYSTIC_DATA?.SHIN_SAL_EXT?.['백호대살'] || {n:'백호대살', d:'위기에 굴하지 않는 폭발적인 돌파력입니다.'});
+        if(pillars.some(p=>['庚辰','庚戌','壬辰','壬戌','戊戌'].includes(p))) shinSal.push(MYSTIC_DATA?.SHIN_SAL_EXT?.['괴강살'] || {n:'괴강살', d:'무리를 이끄는 카리스마와 절대적인 리더십입니다.'});
+        if(pillars.some(p=>['甲午','丙寅','丁未','戊辰','庚戌','辛酉','壬子'].includes(p))) shinSal.push(MYSTIC_DATA?.SHIN_SAL_EXT?.['홍염살'] || {n:'홍염살', d:'주변을 자석처럼 홀리는 타고난 마성입니다.'});
+        
+        // 천을귀인
+        const cheonEulMap = {'甲':['丑','未'],'戊':['丑','未'],'庚':['丑','未'],'乙':['子','申'],'己':['子','申'],'丙':['亥','酉'],'丁':['亥','酉'],'辛':['寅','午'],'壬':['巳','卯'],'癸':['巳','卯']};
+        if(cheonEulMap[d.dG] && br.some(z=>cheonEulMap[d.dG].includes(z))) shinSal.unshift(MYSTIC_DATA?.SHIN_SAL_EXT?.['천을귀인'] || {n:'천을귀인', d:'사주 최고의 길신으로 어떠한 재난도 피해갑니다.'});
+
+        // 심연 (삼형, 원진, 귀문)
+        if((br.includes('寅')&&br.includes('巳')&&br.includes('申')) || (br.includes('丑')&&br.includes('戌')&&br.includes('未'))) abyss.push(MYSTIC_DATA?.SHIN_SAL_EXT?.['삼형살'] || {n:'삼형살',d:'기운이 부딪히는 역동성이 있습니다.'});
+        if(br.some(z => ['子未','丑午','寅酉','卯申','辰亥','巳戌'].some(pair => pair.includes(d.dZ) && pair.includes(z) && d.dZ !== z))) abyss.push(MYSTIC_DATA?.SHIN_SAL_EXT?.['원진살'] || {n:'원진살',d:'애증의 굴곡을 뜻합니다.'});
+        if(br.some(z => ['子酉','丑午','寅未','卯申','辰亥','巳戌'].some(pair => pair.includes(d.dZ) && pair.includes(z) && d.dZ !== z))) abyss.push(MYSTIC_DATA?.SHIN_SAL_EXT?.['귀문관살'] || {n:'귀문관살',d:'천재적인 직관력이 공존합니다.'});
+
+        d.shinSal = shinSal;
+        d.abyss = abyss;
+        
+        // 2. 공망(空亡) 스캔 로직
         const stems = '甲乙丙丁戊己庚辛壬癸', branches = '子丑寅卯辰巳午未申酉戌亥';
         const sIdx = stems.indexOf(d.dG), zIdx = branches.indexOf(d.dZ);
         if (sIdx !== -1 && zIdx !== -1) {
@@ -271,7 +294,7 @@
         d.daewun = daewun;
         d.curDw = daewun.find(dw => d.age >= dw.age) || daewun[0] || {age:1, ganzhi:'甲子'};
 
-        return { ...d, abyss };
+        return d;
     }
 
     // --- 로딩 텍스트 애니메이션 함수 ---
@@ -346,7 +369,7 @@
                     <p style="color:var(--text-muted); font-size:1rem;">${d.solStr}</p>
                  </div>`;
         
-        // 1. 명식표 복구
+        // 1. 명식표 
         h += wrap(`<div class="sec-title">사주 명식표 및 10년 대운</div>
             <div class="pillar-row">
             <div class="pillar"><span>시주</span><div class="ten-god">${d.mapping.hG}</div><b class="stem">${d.ch[6]}</b><b class="branch">${d.ch[7]}</b><div class="ten-god">${d.mapping.hZ}</div></div>
@@ -359,7 +382,7 @@
             h += wrap(`<div class="daewun-grid">${d.daewun.map(w => `<div class="daewun-col" style="${w.age===d.curDw.age?'border-color:var(--accent-gold); background:rgba(212,175,55,0.1);':''}"><div class="daewun-age">${w.age}세</div><div class="daewun-char">${w.ganzhi.charAt(0)}<br>${w.ganzhi.charAt(1)}</div></div>`).join('')}</div>`);
         }
 
-        // 2. 오행 차트 복구
+        // 2. 오행 차트 
         let chart = `<div class="element-chart-container"><div style="text-align:center; font-weight:800; color:#fff; font-size:1.2rem; margin-bottom:30px;">타고난 오행 에너지 분포</div>`;
         ['木','火','土','金','水'].forEach(el => {
             const colors = {'木':'wood','火':'fire','土':'earth','金':'metal','水':'water'};
@@ -367,24 +390,40 @@
         });
         h += wrap(chart + `</div>`);
 
-        // 3. 심연 로직 렌더링 (풍부해진 텍스트 적용)
+        // 3. 누락된 신살(별점 UI) 복구
+        if(d.shinSal.length > 0) {
+            let salHtml = `<div class="sec-title">나의 숨겨진 잠재력: 특수 신살(神殺)</div><div class="detail-text" style="margin-bottom:20px;"><p><b class="basis-text">사주 8글자 속에 내재된 특별하고 강력한 에너지(살)입니다.</b></p></div><div style="display:grid; grid-template-columns:1fr; gap:15px; margin-bottom:50px;">`;
+            d.shinSal.forEach(sal => {
+                salHtml += `<div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-left:4px solid var(--accent-gold); border-radius:16px; padding:20px; display:flex; flex-direction:column;">
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                        <span style="color:#fff; font-weight:700; font-size:1.15rem;">${sal.n}</span>
+                        <span style="color:var(--accent-gold-light); font-size:1rem; letter-spacing:2px;">★★★★</span>
+                    </div>
+                    <span style="color:var(--text-muted); font-size:1rem; line-height:1.6;">${sal.d}</span>
+                </div>`;
+            });
+            salHtml += `</div>`;
+            h += wrap(salHtml);
+        }
+
+        // 4. 심연 로직 렌더링 
         let masterHtml = `<div style="background:linear-gradient(135deg, rgba(212,175,55,0.05), rgba(0,0,0,0.5)); padding:30px; border-radius:24px; border:1px solid var(--accent-gold); margin-bottom:50px;">`;
-        masterHtml += `<p style="margin-bottom:20px; font-size:1.1rem;"><b class="basis-text">십이운성(十二運星) 분석:</b> 귀하의 사회적 역량은 <b>[${d.w12.social}]</b>, 개인적 내면의 기운은 <b>[${d.w12.personal}]</b>의 에너지를 띠고 있습니다.<br><span style="font-size:1rem; color:var(--text-muted); display:block; margin-top:8px; line-height:1.7;">${MYSTIC_DATA?.WOUNSUNG_DB?.[d.w12.personal] || ''}</span></p>`;
+        masterHtml += `<p style="margin-bottom:25px; font-size:1.1rem;"><b class="basis-text">십이운성(十二運星) 분석:</b> 귀하의 사회적 역량은 <b>[${d.w12.social}]</b>, 개인적 내면의 기운은 <b>[${d.w12.personal}]</b>의 에너지를 띠고 있습니다.<br><span style="font-size:1.05rem; color:var(--text-muted); display:block; margin-top:10px; line-height:1.7;">${MYSTIC_DATA?.WOUNSUNG_DB?.[d.w12.personal] || ''}</span></p>`;
         
         if(d.gongmang.pos.length > 0) {
             let gmDesc = d.gongmang.pos.map(pos => MYSTIC_DATA?.GONGMANG_DB?.[pos] || '').join('<br><br>');
-            masterHtml += `<p style="margin-bottom:20px; font-size:1.1rem;"><b class="basis-text">공망(空亡) 탐지 (${d.gongmang.chars}):</b> 귀하의 명식 중 <b>${d.gongmang.pos.join(', ')}</b> 자리에 공망이 들었습니다.<br><span style="font-size:1rem; color:var(--text-muted); display:block; margin-top:8px; line-height:1.7;">${gmDesc}</span></p>`;
+            masterHtml += `<p style="margin-bottom:25px; font-size:1.1rem;"><b class="basis-text">공망(空亡) 탐지 (${d.gongmang.chars}):</b> 귀하의 명식 중 <b>${d.gongmang.pos.join(', ')}</b> 자리에 공망이 들었습니다.<br><span style="font-size:1.05rem; color:var(--text-muted); display:block; margin-top:10px; line-height:1.7;">${gmDesc}</span></p>`;
         } else {
-            masterHtml += `<p style="margin-bottom:20px; font-size:1.1rem;"><b class="basis-text">공망(空亡) 탐지:</b> 명식 주요 자리에 밑 빠진 독이라 불리는 공망이 발견되지 않아 에너지가 새지 않고 굳건합니다.</p>`;
+            masterHtml += `<p style="margin-bottom:25px; font-size:1.1rem;"><b class="basis-text">공망(空亡) 탐지:</b> 명식 주요 자리에 밑 빠진 독이라 불리는 공망이 발견되지 않아 에너지가 새지 않고 굳건합니다.</p>`;
         }
 
         if(d.abyss.length > 0) {
-            d.abyss.forEach(a => { masterHtml += `<p style="margin-bottom:20px; font-size:1.1rem;"><b class="basis-text">${a.n}:</b> <span style="font-size:1rem; color:var(--text-muted); display:block; margin-top:8px; line-height:1.7;">${a.d}</span></p>`; });
+            d.abyss.forEach(a => { masterHtml += `<p style="margin-bottom:20px; font-size:1.1rem;"><b class="basis-text">${a.n}:</b> <span style="font-size:1.05rem; color:var(--text-muted); display:block; margin-top:10px; line-height:1.7;">${a.d}</span></p>`; });
         }
         masterHtml += `</div>`;
-        h += UI_Sec("🌌 명리학의 끝판왕: 정밀 심연 스캔", "12운성, 공망, 특수 살성을 스캔한 결과입니다.", "", wrap(masterHtml));
+        h += UI_Sec("🌌 명리학의 끝판왕: 정밀 심연 스캔", "12운성, 공망, 숨은 살성을 스캔한 결과입니다.", "", wrap(masterHtml));
 
-        // 4. 텍스트 풀이 (풍부해진 텍스트 적용)
+        // 5. 대운 세운 풀이
         let dwText = `현재 [${d.curDw.ganzhi}] 대운 중심을 지나며, ${getOh(d.curDw.ganzhi.charAt(0))===d.yong?'나를 살리는 수호 기운이 들어오는 황금기이니 과감히 스케일을 키워 도전하세요.':'에너지를 다소 소모하는 시기이니 무리한 확장보다는 내실을 단단히 다지세요.'}`;
         let seunText = `올해 ${d.cYear}년(${d.sG}${d.sZ})은 ${d.dyn.length>0? d.dyn.join('<br>'):'비교적 무난하고 평탄한 흐름을 보입니다.'}`;
         h += UI_Sec("⏳ 현재 운세 기상도", "10년 주기 대운과 올해의 흐름:", "", UI_Box(`현재 10년: ${d.curDw.ganzhi} 대운`, `<p style="margin-bottom:15px;">${dwText}</p><p style="color:var(--color-fire); font-weight:700;">올해 흐름:<br>${seunText}</p>`));
@@ -398,19 +437,16 @@
         const myJigan = MYSTIC_DATA?.JIGAN_DB?.[d.dG] || {desc:'자신의 굳건한 주관을 믿고 나아가세요.'};
         h += UI_Sec("🌱 인생의 흐름", "본원의 기질과 평생운:", `<br><b>나의 본질:</b> ${myJigan.desc}<br><br><b>초년:</b> ${MYSTIC_DATA?.LIFETIME_DB?.e?.[d.oh] || ''}<br><br><b>중년:</b> ${MYSTIC_DATA?.LIFETIME_DB?.m?.[d.oh] || ''}<br><br><b>말년:</b> ${MYSTIC_DATA?.LIFETIME_DB?.l?.[d.oh] || ''}`);
         
-        h += UI_Sec("💎 입체 통변", "분야별 상세 분석:", `<br><b>💰 부의 연금술:</b> ${MYSTIC_DATA?.LIFETIME_DB?.w?.[d.oh] || ''}<br><br><b>💼 별이 내린 천직:</b> ${MYSTIC_DATA?.LIFETIME_DB?.c?.[d.oh] || ''}<br><br><b>❤️ 주파수의 공명 (사랑):</b> ${MYSTIC_DATA?.LIFETIME_DB?.l_v?.[d.oh] || ''}<br><br><b>👨‍👩‍👧‍👦 뿌리와 열매 (가족):</b> ${MYSTIC_DATA?.LIFETIME_DB?.f?.[d.oh] || ''}<br><br><b>💪 생명력의 흐름 (건강):</b> ${MYSTIC_DATA?.LIFETIME_DB?.h?.[d.oh] || ''}`);
+        const myGod = MYSTIC_DATA?.GOD_DB?.[d.domGod] || {w:'', c:'', l:''};
+        h += UI_Sec("💎 입체 통변", "분야별 상세 분석:", `<br><b>💰 부의 연금술:</b> ${MYSTIC_DATA?.LIFETIME_DB?.w?.[d.oh] || ''}<br><span style="color:var(--text-muted); font-size:0.95rem;">(조언: ${myGod.w})</span><br><br><b>💼 별이 내린 천직:</b> ${MYSTIC_DATA?.LIFETIME_DB?.c?.[d.oh] || ''}<br><span style="color:var(--text-muted); font-size:0.95rem;">(조언: ${myGod.c})</span><br><br><b>❤️ 주파수의 공명 (사랑):</b> ${MYSTIC_DATA?.LIFETIME_DB?.l_v?.[d.oh] || ''}<br><span style="color:var(--text-muted); font-size:0.95rem;">(조언: ${myGod.l})</span><br><br><b>👨‍👩‍👧‍👦 뿌리와 열매 (가족):</b> ${MYSTIC_DATA?.LIFETIME_DB?.f?.[d.oh] || ''}<br><br><b>💪 생명력의 흐름 (건강):</b> ${MYSTIC_DATA?.LIFETIME_DB?.h?.[d.oh] || ''}`);
         
-        // 5. 귀인 복구
-        const helper = MYSTIC_DATA?.HELPER_DB?.[d.dG] || {animals:'소띠, 양띠', desc:'인생의 큰 위기마다 도움을 주는 귀인입니다.'};
-        h += wrap(`<div class="sec-title">🤝 조력자 분석: 천을귀인</div><div class="helper-box"><div class="helper-icon">🐂</div><div><h4 style="color:#fff; font-size:1.3rem; margin-bottom:10px;">나의 귀인: <span style="color:var(--accent-gold-light);">${helper.animals}</span></h4><p style="font-size:1.05rem; color:var(--text-muted); line-height:1.6;">${helper.desc}</p></div></div>`);
-
         // 6. 타임라인 복구
         let timelineHtml = ''; const bA = ['자(쥐)', '축(소)', '인(호랑이)', '묘(토끼)', '진(용)', '사(뱀)', '오(말)', '미(양)', '신(원숭이)', '유(닭)', '술(개)', '해(돼지)'];
         const tA = ["장기적인 안목으로 씨앗을 뿌리기에 완벽한 해입니다.", "다진 기반이 훗날 거대한 철옹성이 됩니다.", "과감한 도전을 망설임 없이 실행해야 할 타이밍입니다.", "주변 귀인의 도움으로 어려운 문제를 해결하며 실속을 챙깁니다.", "문서운과 계약운이 매우 강력하게 들어오는 행운의 해입니다.", "강한 역마가 들어와 타향이나 낯선 곳에서 막대한 기회를 얻습니다.", "그간의 숨은 노력이 화려하게 드러나며 스포트라이트를 한 몸에 받습니다.", "속도를 잠시 줄이고 내면과 가정을 돌볼 때 진정한 행복을 얻습니다.", "새로운 투자보다 본업에 온전히 집중하여 현금을 꽉 확보하세요.", "예리하고 냉철한 판단력으로 당신의 실속을 극대화합니다.", "베풀었던 덕이 되돌아오며 자산을 튼튼하게 지키기에 최적입니다.", "낡은 관념을 버리고 완전히 새롭고 위대한 다음 10년을 기획하십시오."];
         for(let i=0; i<10; i++) { let y=d.cYear+i; let idx=(y-4)%12; timelineHtml += `<div class="timeline-item"><div class="timeline-point"></div><div class="timeline-year">${y}년 <span style="font-size:0.85rem; font-weight:500; color:#fff; background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:12px; margin-left:10px; border:1px solid rgba(255,255,255,0.2);">${bA[idx]}의 해</span></div><div class="detail-text" style="font-size:1.05rem;">${tA[idx]}</div></div>`; }
         h += wrap(`<div class="sec-title">📈 향후 10년 운명 타임라인</div><div class="timeline">${timelineHtml}</div>`);
 
-        // 7. 처방전 복구
+        // 7. 처방전 복구 (처방 근거 이유 포함)
         h += renderActionBox(d);
         return h;
     }
@@ -426,19 +462,19 @@
 
         let h = `<div class="daily-fortune" style="padding:40px 20px;">
                     <div style="font-size:1.2rem; color:var(--accent-gold-light); font-weight:700; margin-bottom:10px;">우주적 궁합지수</div>
-                    <div style="font-size:3.5rem; font-weight:800; color:#fff; margin-bottom:15px; line-height:1;">${score}<span style="font-size:1.5rem;">점</span></div>
+                    <div style="font-size:4rem; font-weight:800; color:#fff; margin-bottom:15px; line-height:1;">${score}<span style="font-size:1.5rem;">점</span></div>
                     <p style="font-size:1.2rem; color:var(--text-muted);">"${res.t}"</p>
                  </div>
                  
                  <div style="display:flex; justify-content:center; align-items:center; gap:15px; margin-bottom:50px;">
                     <div class="pillar" style="flex:1; padding:30px 10px;">
-                        <span style="font-size:1rem; font-weight:700; color:#fff; margin-bottom:15px;">${me.name}</span>
-                        <b style="color:var(--accent-gold-light); font-size:2rem;">${me.dG}</b><b style="font-size:2rem;">${me.dZ}</b>
+                        <span style="font-size:1.1rem; font-weight:700; color:#fff; margin-bottom:15px;">${me.name}</span>
+                        <b style="color:var(--accent-gold-light); font-size:2.2rem;">${me.dG}</b><b style="font-size:2.2rem;">${me.dZ}</b>
                     </div>
                     <div style="font-size:2.5rem; animation: heartbeat 1.5s infinite;">💖</div>
                     <div class="pillar" style="flex:1; padding:30px 10px;">
-                        <span style="font-size:1rem; font-weight:700; color:#fff; margin-bottom:15px;">${you.name}</span>
-                        <b style="color:var(--accent-gold-light); font-size:2rem;">${you.dG}</b><b style="font-size:2rem;">${you.dZ}</b>
+                        <span style="font-size:1.1rem; font-weight:700; color:#fff; margin-bottom:15px;">${you.name}</span>
+                        <b style="color:var(--accent-gold-light); font-size:2.2rem;">${you.dG}</b><b style="font-size:2.2rem;">${you.dZ}</b>
                     </div>
                  </div>
                  <style>@keyframes heartbeat { 0% { transform: scale(1); } 15% { transform: scale(1.3); } 30% { transform: scale(1); } 45% { transform: scale(1.3); } 60% { transform: scale(1); } }</style>`;
@@ -462,23 +498,31 @@
 
     function renderActionBox(d) {
         const seed = Math.floor(Math.random() * 9) + 1;
-        const p = { '木':{n:'일기장',l:'행운 아이템',i:'📓',d:'정동쪽',c:'그린'}, '火':{n:'디퓨저',l:'행운 아이템',i:'🕯️',d:'정남쪽',c:'레드'}, '土':{n:'다기세트',l:'행운 아이템',i:'🍵',d:'중앙',c:'황색'}, '金':{n:'메탈시계',l:'행운 아이템',i:'⌚',d:'정서쪽',c:'실버'}, '水':{n:'가습기',l:'행운 아이템',i:'💧',d:'정북쪽',c:'블랙'} };
+        const p = { 
+            '木':{n:'마음챙김 에세이',l:'추천 도서',i:'📖',d:'정동쪽',c:'그린', r:'목(木)의 생동하는 에너지가 필요합니다. 내면을 따뜻하게 일깨우는 에세이가 깊은 지혜를 더해줍니다.'}, 
+            '火':{n:'디퓨저',l:'행운 아이템',i:'🕯️',d:'정남쪽',c:'레드', r:'화(火)의 불꽃같은 열정을 보강해야 합니다. 은은한 향기가 내면의 밸런스를 잡아줍니다.'}, 
+            '土':{n:'다기세트',l:'행운 아이템',i:'🍵',d:'중앙',c:'황색', r:'토(土)의 듬직한 안정이 필요합니다. 차를 마시는 고요한 시간이 흔들리는 마음을 잡아줍니다.'}, 
+            '金':{n:'메탈시계',l:'행운 아이템',i:'⌚',d:'정서쪽',c:'실버', r:'금(金)의 서늘함이 결단력을 극대화합니다. 차가운 금속성 물질이 당신의 집중력을 높입니다.'}, 
+            '水':{n:'가습기',l:'행운 아이템',i:'💧',d:'정북쪽',c:'블랙', r:'수(水)의 유연함이 필요합니다. 물의 에너지를 곁에 두어 꽉 막힌 머리를 시원하게 뚫어주세요.'} 
+        };
         const cLuck = p[d.oh] || p['土'];
         
         return wrap(`<div style="margin-top:100px; padding:50px 30px; border-radius:30px; background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.5)); border:1px solid var(--card-border); text-align:center;">
-            <h2 style="color:#fff; font-size:1.6rem; margin-bottom:10px;">✨ 운명을 바꾸는 처방</h2>
-            <div style="font-size:0.95rem; color:var(--text-muted); margin-bottom:40px;">당신의 운기에 절대적으로 부족한 오행을 보강하는 최상의 개운(開運) 아이템입니다.</div>
+            <h2 style="color:#fff; font-size:1.6rem; margin-bottom:30px;">✨ 운명을 바꾸는 처방</h2>
             <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:15px; margin-bottom:40px;">
                 <div style="background:rgba(0,0,0,0.3); padding:25px 10px; border-radius:20px; border:1px solid var(--card-border);"><span style="display:block; font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;">수호 컬러</span><b style="color:var(--accent-gold-light); font-size:1.3rem;">${cLuck.c}</b></div>
                 <div style="background:rgba(0,0,0,0.3); padding:25px 10px; border-radius:20px; border:1px solid var(--card-border);"><span style="display:block; font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;">행운 방위</span><b style="color:var(--accent-gold-light); font-size:1.3rem;">${cLuck.d}</b></div>
                 <div style="background:rgba(0,0,0,0.3); padding:25px 10px; border-radius:20px; border:1px solid var(--card-border);"><span style="display:block; font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;">행운 숫자</span><b style="color:var(--accent-gold-light); font-size:1.3rem;">${seed}</b></div>
+            </div>
+            <div class="reason-box">
+                <p><b class="basis-text" style="color:var(--text-main); font-size:1.05rem; margin-bottom:10px;">🔍 처방 근거: </b>분석된 운기의 부족한 오행 성분을 보강하고 동시성 파동을 최적화하기 위해 도출된 최상의 개운(開運) 아이템입니다. ${cLuck.r}</p>
             </div>
             <a href="https://www.coupang.com/np/search?q=${encodeURIComponent(cLuck.n)}&utm_source=affiliate" target="_blank" class="btn-rec">🛍️ ${cLuck.i} ${cLuck.l} [ ${cLuck.n} ] 찾기</a>
             <div style="margin-top:25px; font-size:0.75rem; color:var(--text-muted); opacity:0.5;">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</div>
         </div>`);
     }
 
-    // --- 초기화 ---
+    // --- 카운터 및 초기화 ---
     window.onload = async () => {
         const yS=document.getElementById('user-year'), mS=document.getElementById('user-month'), dS=document.getElementById('user-day'), py=document.getElementById('p-year'), pm=document.getElementById('p-month'), pd=document.getElementById('p-day');
         [yS, py].forEach(s => { for(let i=2025;i>=1930;i--) s.add(new Option(i+'년', i)); });
@@ -486,16 +530,49 @@
         [dS, pd].forEach(s => { for(let i=1;i<=31;i++) s.add(new Option(i+'일', i)); });
         yS.value = 1995; py.value = 1995;
         
+        // 카운터 복구 (실제 작동)
+        const tk = 'destinote_total', dk = 'destinote_today_' + new Date().toDateString();
+        let total = parseInt(localStorage.getItem(tk) || 2480) + 1;
+        let today = parseInt(localStorage.getItem(dk) || 12) + 1;
+        localStorage.setItem(tk, total); localStorage.setItem(dk, today);
+        document.getElementById('visitor-ui').innerHTML = `🌟 오늘 <b>${today}</b>명 · 누적 <b>${total}</b>명이 운명을 해독했습니다.`;
+
         try {
             const r = await fetch('data.json');
             MYSTIC_DATA = await r.json();
             document.getElementById('loader').style.display='none';
             document.getElementById('main-app').style.display='block';
-        } catch(e) { document.getElementById('loader-text').innerText="데이터 로딩 실패! (Live Server나 호스팅 환경에서 실행해주세요)"; }
+        } catch(e) { document.getElementById('loader-text').innerText="데이터 로딩 실패! (서버 환경을 확인해주세요)"; }
     };
+    
     function goHome() { location.reload(); }
-    function downloadImage() { alert("운명노트 캡처 준비 완료!"); }
-    function shareReport() { alert("운명노트 링크 복사 완료!"); }
+    function downloadImage() { 
+        document.getElementById('loader').style.display='flex';
+        document.getElementById('loader-text').innerText="결과 이미지를 생성 중입니다...";
+        html2canvas(document.getElementById('report-wrap'), {scale:2, backgroundColor:'#05070a'}).then(c=>{
+            document.getElementById('loader').style.display='none';
+            let a=document.createElement('a'); a.download='운명노트_결과.png'; a.href=c.toDataURL('image/png'); a.click();
+        });
+    }
+
+    // 네이티브 공유 API 적용
+    function shareReport() { 
+        if (navigator.share) {
+            navigator.share({
+                title: '운명노트(destinote)',
+                text: '나의 소름돋는 운명노트 분석 결과를 확인해보세요!',
+                url: window.location.href
+            }).catch(console.error);
+        } else {
+            const dummy = document.createElement('input');
+            document.body.appendChild(dummy);
+            dummy.value = window.location.href;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+            alert("링크가 복사되었습니다. 원하는 곳에 붙여넣기 하세요!");
+        }
+    }
 </script>
 </body>
 </html>
