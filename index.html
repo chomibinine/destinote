@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>命理院 — 사주명리 정밀 분석</title>
+<title>운명노트 — 사주명리 정밀 분석</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════ TOKENS ═══════════════════ */
@@ -42,7 +42,7 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:4px;background
 #input-view{padding-top:56px}
 .logo{text-align:center;margin-bottom:48px}
 .logo-hanja{font-family:'Nanum Myeongjo',serif;font-size:5rem;font-weight:800;color:var(--verm);letter-spacing:.12em;line-height:1;position:relative;display:inline-block;text-shadow:3px 3px 0 rgba(192,57,43,.18)}
-.logo-hanja::after{content:'命理院';position:absolute;top:5px;left:5px;color:rgba(192,57,43,.09);z-index:-1;pointer-events:none}
+.logo-hanja::after{content:'운명노트';position:absolute;top:5px;left:5px;color:rgba(192,57,43,.09);z-index:-1;pointer-events:none}
 .logo-sub{font-family:'Noto Serif KR',serif;font-size:.88rem;color:var(--muted);letter-spacing:.45em;margin-top:10px;text-transform:uppercase}
 .logo-desc{font-size:.9rem;color:var(--muted);margin-top:14px;line-height:1.8;max-width:520px;margin-left:auto;margin-right:auto}
 .divider{display:flex;align-items:center;gap:14px;margin:32px 0}
@@ -259,7 +259,7 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:4px;background
 <div id="loader">
   <div>
     <div class="ld-char">命</div>
-    <div class="ld-txt">사주팔자를 해독하는 중<span class="ld-dots"><span>.</span><span>.</span><span>.</span></span></div>
+    <div class="ld-txt">사주팔자 해독 중<span class="ld-dots"><span>.</span><span>.</span><span>.</span></span></div>
   </div>
 </div>
 
@@ -948,7 +948,7 @@ function renderTossCTA(yongEl, slot) {
   var item = links[slot];
   if (!item || !item.url) return '';
 
-  // 슬롯별 명리학 서사 문장 (상품명 완전 은폐)
+  // 슬롯별 명리학 서사 문장
   var narratives = {
     yong: {
       木: '동쪽 방위에 살아있는 식물 하나를 두는 것만으로도 木 기운의 흐름이 달라질 수 있습니다. <a href="'+item.url+'" target="_blank" rel="noopener sponsored" style="color:var(--gold);font-weight:700;text-decoration:underline;text-decoration-style:dotted" title="제휴링크">이런 형태의 공기정화 식물</a>이 특히 잘 맞습니다.',
@@ -1465,7 +1465,7 @@ const App={
     },900);
   },
   renderAll:function(d){
-    document.getElementById('r-name').textContent=d.name+'님의 命理 리포트';
+    document.getElementById('r-name').textContent=d.name+'님의 운명노트';
     document.getElementById('r-meta').textContent='양력 '+d.solar+' · 음력 '+d.lunar;
     document.getElementById('r-dm').innerHTML='일간(日干) &nbsp;<span style="font-family:\'Nanum Myeongjo\',serif;font-size:1.7rem;font-weight:800;color:var(--gold2)">'+d.bz.dayGan+'</span>&nbsp; '+DB.EL_KOR[d.dmEl]+' &nbsp;·&nbsp; '+DB.YY[d.bz.dayGan]+' &nbsp;·&nbsp; '+(d.yong.isStrong===null?'조후(調候)':d.yong.isStrong?'신강(身强)':'신약(身弱)')+' &nbsp;·&nbsp; '+d.yong.method;
     renderTabBazi(d);
